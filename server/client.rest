@@ -1,0 +1,23 @@
+### GET ALL BOOKS
+GET http://localhost:4000/api/users
+
+### GET ONE USER
+GET http://localhost:4000/api/users/1
+
+### REGISTER USER
+POST http://localhost:4000/api/users/register
+Content-Type: application/json
+
+ {
+    "email": "cata@mail.com",
+    "password": "hello"
+ }
+
+### LOGIN USER
+POST http://localhost:4000/api/users/login
+Content-Type: application/json
+
+ {
+    "email": "cata@mail.com",
+    "password": "hello"
+ }
