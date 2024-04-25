@@ -11,7 +11,7 @@ export const eventsRouter = express.Router();
 
 eventsRouter.get("/", getAllEvents);
 eventsRouter.get("/:id", getEvent);
-eventsRouter.post("/register", createEvent);
+eventsRouter.post("/", createEvent);
 eventsRouter.put("/:id", updateEvent);
 eventsRouter.delete("/:id", deleteEvent);
 
