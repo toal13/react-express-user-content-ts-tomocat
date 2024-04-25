@@ -10,8 +10,6 @@ import {
 
 const usersRouter = express.Router();
 
-export const resourcePath = '/api/users';
-
 usersRouter.get('/', getAllUsers);
 usersRouter.get(`/:id`, getUser);
 usersRouter.post(`/register`, registerUser);
