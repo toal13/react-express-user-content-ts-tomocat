@@ -1,4 +1,4 @@
-### GET ALL BOOKS
+### GET ALL USERS
 GET http://localhost:4000/api/users
 
 ### GET USER INFO
@@ -31,7 +31,43 @@ Content-Type: application/json
     "email": "cata@mail.com",
     "password": "hello"
  }
-
+ 
 ### DELETE USER
 DELETE http://localhost:4000/api/users/1
 Content-Type: application/json
+
+### GET ALL EVENTS
+GET http://localhost:4000/api/events
+
+### GET ONE EVENT
+GET http://localhost:4000/api/events/1
+
+### CREATE A EVENT
+POST http://localhost:4000/api/events
+Content-Type: application/json
+
+{
+  "title": "Outdoor Festival",
+  "date": "27 April",
+  "place": "Kungsbacka",
+  "category": "outdoor event",
+  "createBy": "user123"
+}
+
+### EDIT AN EVENT
+PUT http://localhost:4000/api/events/1
+Content-Type: application/json
+
+{
+  "title": "Outdoor Festival",
+  "date": "30 April",
+  "place": "Kungsbacka",
+  "category": "outdoor event",
+  "createBy": "user123"
+}
+
+### DELETE AN EVENT
+DELETE http://localhost:4000/api/events/1
+
+
+

@@ -1,7 +1,10 @@
+
+import express from "express";
+import { eventsRouter } from "../resources/events/events-router";
+import usersRouter from "../resources/users/users-router";
 import cookieSession from 'cookie-session';
 import 'dotenv/config';
-import express from 'express';
-import usersRouter from '../resources/users/users-router';
+
 
 export const app = express();
 
@@ -21,6 +24,10 @@ export const users: User[] = [
 // SKRIV DIN SERVERKOD HÄR!
 
 app.use(express.json());
+
+app.use("/api/users", usersRouter);
+app.use("/api/events", eventsRouter);
+
 app.use(
   cookieSession({
     name: 'login',
@@ -31,3 +38,4 @@ app.use(
 );
 
 app.use('/api/users', usersRouter);
+
