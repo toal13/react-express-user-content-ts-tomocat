@@ -1,19 +1,54 @@
+import argon2 from 'argon2';
 import { Request, Response } from 'express';
+import { UserModel } from './users-model';
 
-export const getAllUsers = (req: Request, res: Response) => {
-  res.status(200).json('Get all users');
+export const getAllUsers = async (req: Request, res: Response) => {
+  const users = await UserModel.find({});
+  res.status(200).json(users);
 };
 
-export const getUser = (req: Request, res: Response) => {
-  res.status(200).json('Get one user');
+export const getUserSelf = async (req: Request, res: Response) => {
+  res.status(200).json(req.session?.email);
 };
 
-export const registerUser = (req: Request, res: Response) => {
-  res.status(200).json('Register a user');
+export const registerUser = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  const hashedPassword = await argon2.hash(password);
+
+  const duplicateUser = await UserModel.findOne({ email });
+
+  if (duplicateUser) {
+    res.status(409).json('User already created');
+    return;
+  }
+
+  const user = await UserModel.create({ email, password: hashedPassword });
+
+  //users.push({ email, password: hashedPassword });
+  res.status(200).json(user);
 };
 
-export const loginUser = (req: Request, res: Response) => {
-  res.status(200).json('Login user');
+export const loginUser = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  // const user = users.find((user) => user.email === email);
+
+  const user = await UserModel.findOne({ email });
+
+  if (!user) {
+    res.status(401).json('Incorrect email address or password');
+    return;
+  }
+
+  if (!(await argon2.verify(user.password, password))) {
+    res.status(401).json('Incorrect email address or password');
+    return;
+  }
+
+  req.session!.email = user.email;
+
+  res.status(200).json('You are logged in');
 };
 
 export const updateUser = (req: Request, res: Response) => {
