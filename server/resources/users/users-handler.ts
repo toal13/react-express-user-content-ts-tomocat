@@ -3,13 +3,6 @@ import { Request, Response } from 'express';
 import { UserModel } from './users-model';
 
 export const getAllUsers = async (req: Request, res: Response) => {
-  const user = await UserModel.findOne(req.session?.email);
-
-  if (!req.session?.user?.isAdmin) {
-    res.status(401).json('You are not authorized');
-    return;
-  }
-
   const users = await UserModel.find({});
   res.status(200).json(users);
 };
@@ -47,8 +40,8 @@ export const loginUser = async (req: Request, res: Response) => {
 
   const user = await UserModel.findOne({ email });
 
-  if (!user?.isAdmin) {
-    res.status(401).json('Incorrect email address or password');
+  if (!user) {
+    res.status(401).json('Could not find your user');
     return;
   }
 
@@ -56,9 +49,10 @@ export const loginUser = async (req: Request, res: Response) => {
     res.status(401).json('Incorrect email address or password');
     return;
   }
-  req.session!.user = { email: user.email, isAdmin: user.isAdmin };
-  // req.session!.email = user.email;
 
+  req.session!.user = { email: user.email, isAdmin: user.isAdmin };
+
+  // req.session!.email = user.email;
   res.status(200).json('You are logged in');
 };
 
