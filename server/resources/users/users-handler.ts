@@ -3,16 +3,23 @@ import { Request, Response } from 'express';
 import { UserModel } from './users-model';
 
 export const getAllUsers = async (req: Request, res: Response) => {
+  const user = await UserModel.findOne(req.session?.email);
+
+  if (!req.session?.user?.isAdmin) {
+    res.status(401).json('You are not authorized');
+    return;
+  }
+
   const users = await UserModel.find({});
   res.status(200).json(users);
 };
 
 export const getUserSelf = async (req: Request, res: Response) => {
-  res.status(200).json(req.session?.email);
+  res.status(200).json(req.session?.user);
 };
 
 export const registerUser = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, isAdmin } = req.body;
 
   const hashedPassword = await argon2.hash(password);
 
@@ -23,7 +30,11 @@ export const registerUser = async (req: Request, res: Response) => {
     return;
   }
 
-  const user = await UserModel.create({ email, password: hashedPassword });
+  const user = await UserModel.create({
+    email,
+    password: hashedPassword,
+    isAdmin,
+  });
 
   //users.push({ email, password: hashedPassword });
   res.status(200).json(user);
@@ -36,7 +47,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
   const user = await UserModel.findOne({ email });
 
-  if (!user) {
+  if (!user?.isAdmin) {
     res.status(401).json('Incorrect email address or password');
     return;
   }
@@ -45,8 +56,8 @@ export const loginUser = async (req: Request, res: Response) => {
     res.status(401).json('Incorrect email address or password');
     return;
   }
-
-  req.session!.email = user.email;
+  req.session!.user = { email: user.email, isAdmin: user.isAdmin };
+  // req.session!.email = user.email;
 
   res.status(200).json('You are logged in');
 };
