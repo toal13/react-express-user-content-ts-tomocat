@@ -1,11 +1,11 @@
-import mongoose, { InferSchemaType, SchemaTypes } from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 
 const EventSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  date: { type: Date, required: true },
+  date: { type: String, required: true },
   place: { type: String, required: true },
   category: { type: String, required: true },
-  createBy: { type: SchemaTypes.ObjectId, required: true },
+  createBy: { type: String, required: true },
 });
 
 export type Event = InferSchemaType<typeof EventSchema>;
