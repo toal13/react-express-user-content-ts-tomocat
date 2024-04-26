@@ -47,10 +47,10 @@ POST http://localhost:4000/api/events
 Content-Type: application/json
 
 {
-  "title": "Outdoor Festival",
-  "date": "27 April",
+  "title": "Music Festival",
+  "date": "27 May",
   "place": "Kungsbacka",
-  "category": "outdoor event",
+  "category": "music event",
   "createBy": "user123"
 }
 
