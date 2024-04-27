@@ -7,7 +7,7 @@ import usersRouter from '../resources/users/users-router';
 export const app = express();
 
 export interface User {
-  email: string;
+  username: string;
   password: string;
 }
 
