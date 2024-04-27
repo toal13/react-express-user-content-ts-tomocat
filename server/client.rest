@@ -9,7 +9,7 @@ POST http://localhost:4000/api/users/register
 Content-Type: application/json
 
  {
-    "email": "cata-12@mail.com",
+    "username": "cat-5@mail.com",
     "password": "hey"
  }
 
@@ -18,9 +18,8 @@ POST http://localhost:4000/api/users/login
 Content-Type: application/json
 
  {
-    "email": "cata-10@mail.com",
-    "password": "hey",
-    "isAdmin": true
+    "username": "cat-5@mail.com",
+    "password": "hey"
  }
 
 ### UPDATE USER
@@ -28,8 +27,7 @@ PUT http://localhost:4000/api/users/1
 Content-Type: application/json
 
  { 
-    "id": 1,
-    "email": "cata@mail.com",
+    "username": "cata@mail.com",
     "password": "hello"
  }
  

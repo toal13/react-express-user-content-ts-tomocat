@@ -8,15 +8,20 @@ export const getAllUsers = async (req: Request, res: Response) => {
 };
 
 export const getUserSelf = async (req: Request, res: Response) => {
-  res.status(200).json(req.session?.user);
+  // res.status(200).json(req.session?.user);
+  if (!req.session?.user) {
+    res.status(401).json(null);
+  } else {
+    res.status(200).json(req.session?.user);
+  }
 };
 
 export const registerUser = async (req: Request, res: Response) => {
-  const { email, password, isAdmin } = req.body;
+  const { username, password, isAdmin } = req.body;
 
   const hashedPassword = await argon2.hash(password);
 
-  const duplicateUser = await UserModel.findOne({ email });
+  const duplicateUser = await UserModel.findOne({ username });
 
   if (duplicateUser) {
     res.status(409).json('User already created');
@@ -24,21 +29,18 @@ export const registerUser = async (req: Request, res: Response) => {
   }
 
   const user = await UserModel.create({
-    email,
+    username,
     password: hashedPassword,
     isAdmin,
   });
 
-  //users.push({ email, password: hashedPassword });
-  res.status(200).json(user);
+  res.status(201).json('Your account has been created');
 };
 
 export const loginUser = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  // const user = users.find((user) => user.email === email);
-
-  const user = await UserModel.findOne({ email });
+  const user = await UserModel.findOne({ username: username });
 
   if (!user) {
     res.status(401).json('Could not find your user');
@@ -50,9 +52,8 @@ export const loginUser = async (req: Request, res: Response) => {
     return;
   }
 
-  req.session!.user = { email: user.email, isAdmin: user.isAdmin };
+  req.session!.user = { username: user.username, isAdmin: user.isAdmin };
 
-  // req.session!.email = user.email;
   res.status(200).json('You are logged in');
 };
 
