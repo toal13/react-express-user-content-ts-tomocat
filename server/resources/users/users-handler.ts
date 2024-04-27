@@ -34,7 +34,7 @@ export const registerUser = async (req: Request, res: Response) => {
     isAdmin,
   });
 
-  res.status(201).json('Your account has been created');
+  res.status(201).json(user);
 };
 
 export const loginUser = async (req: Request, res: Response) => {
@@ -48,7 +48,12 @@ export const loginUser = async (req: Request, res: Response) => {
   }
 
   if (!(await argon2.verify(user.password, password))) {
-    res.status(401).json('Incorrect email address or password');
+    res.status(401).json('Incorrect username or password');
+    return;
+  }
+
+  if (!req.session) {
+    res.status(500).json('Session not available');
     return;
   }
 
