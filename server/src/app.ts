@@ -1,6 +1,6 @@
 import cookieSession from 'cookie-session';
 import 'dotenv/config';
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { eventsRouter } from '../resources/events/events-router';
 import usersRouter from '../resources/users/users-router';
 
@@ -26,3 +26,8 @@ app.use(
 
 app.use('/api/users', usersRouter);
 app.use('/api/events', eventsRouter);
+
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error(err);
+  res.status(500).json({ message: err.message });
+});

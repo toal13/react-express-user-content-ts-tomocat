@@ -3,8 +3,12 @@ import { Request, Response } from 'express';
 import { UserModel } from './users-model';
 
 export const getAllUsers = async (req: Request, res: Response) => {
-  const users = await UserModel.find({});
-  res.status(200).json(users);
+  try {
+    const users = await UserModel.find({});
+    res.status(200).json(users);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const getUserSelf = async (req: Request, res: Response) => {
@@ -34,7 +38,9 @@ export const registerUser = async (req: Request, res: Response) => {
     isAdmin,
   });
 
-  res.status(201).json(user);
+  await user.save();
+
+  res.status(201).json({ message: 'Account created', user });
 };
 
 export const loginUser = async (req: Request, res: Response) => {
@@ -57,15 +63,36 @@ export const loginUser = async (req: Request, res: Response) => {
     return;
   }
 
-  req.session!.user = { username: user.username, isAdmin: user.isAdmin };
+  req.session.user = {
+    _id: user?._id,
+    username: user.username,
+    isAdmin: user.isAdmin,
+  };
 
-  res.status(200).json('You are logged in');
+  res
+    .status(200)
+    .json({ message: 'You are now logged in!', user: req.session.user });
+};
+
+export const logoutUser = (req: Request, res: Response) => {
+  req.session = null;
+  res.status(204).json({ message: 'You are now logged out!' });
 };
 
 export const updateUser = (req: Request, res: Response) => {
   res.status(200).json('Update a user');
 };
 
-export const deleteUser = (req: Request, res: Response) => {
-  res.status(200).json('Delete user');
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const user = await UserModel.findByIdAndDelete(req.params.id);
+    if (!user) {
+      res.status(404).json('User not found');
+      return;
+    }
+    res.status(200).json('User deleted');
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+  // res.status(200).json('Delete user');
 };
