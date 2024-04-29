@@ -49,8 +49,7 @@ Content-Type: application/json
   "title": "Music Festival",
   "date": "27 May",
   "place": "Kungsbacka",
-  "category": "music event",
-  "createBy": "user123"
+  "category": "music event"
 }
 
 ### EDIT AN EVENT
