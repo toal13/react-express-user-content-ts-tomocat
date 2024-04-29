@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { EventModel } from "./events-model";
+import { Request, Response } from 'express';
+import { EventModel } from './events-model';
 
 export async function getAllEvents(req: Request, res: Response) {
   const events = await EventModel.find({});
@@ -16,7 +16,7 @@ export async function createEvent(req: Request, res: Response) {
 // };
 
 export const getEvent = (req: Request, res: Response) => {
-  res.status(200).json("Get one Event");
+  res.status(200).json('Get one Event');
 };
 
 // export const createEvent = (req: Request, res: Response) => {
@@ -24,9 +24,9 @@ export const getEvent = (req: Request, res: Response) => {
 // };
 
 export const updateEvent = (req: Request, res: Response) => {
-  res.status(200).json("Update an event");
+  res.status(200).json('Update an event');
 };
 
 export const deleteEvent = (req: Request, res: Response) => {
-  res.status(200).json("Delete an event");
+  res.status(200).json('Delete an event');
 };

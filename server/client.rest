@@ -9,7 +9,7 @@ POST http://localhost:4000/api/users/register
 Content-Type: application/json
 
  {
-    "username": "cat-4@mail.com",
+    "username": "cat-6@mail.com",
     "password": "hey"
  }
 
@@ -18,7 +18,7 @@ POST http://localhost:4000/api/users/login
 Content-Type: application/json
 
  {
-    "username": "cat-4@mail.com",
+    "username": "cat-6@mail.com",
     "password": "hey"
  }
 
@@ -46,22 +46,26 @@ POST http://localhost:4000/api/events
 Content-Type: application/json
 
 {
-  "title": "Music Festival",
-  "date": "27 May",
+  "title": "Outdoor Festival",
+  "content": "A outdoor festival with a lot of bands",
+  "author": "user123",
+  "date": "30 April",
   "place": "Kungsbacka",
-  "category": "music event"
+  "category": "outdoor event"
 }
 
+ 
 ### EDIT AN EVENT
 PUT http://localhost:4000/api/events/1
 Content-Type: application/json
 
 {
   "title": "Outdoor Festival",
+  "content": "A outdoor festival with a lot of bands",
+  "author": "user123",
   "date": "30 April",
   "place": "Kungsbacka",
-  "category": "outdoor event",
-  "createBy": "user123"
+  "category": "outdoor event"
 }
 
 ### DELETE AN EVENT
