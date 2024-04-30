@@ -41,19 +41,18 @@ export async function getEvent(req: Request, res: Response) {
   }
 }
 
-
 export const updateEvent = async (req: Request, res: Response) => {
   try {
     const event = await EventModel.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
     if (!event) {
-      res.status(404).json({ message: 'Event not found' });
+      res.status(404).json({ message: "Event not found" });
       return;
     }
-    res.status(200).json({ message: 'Event updated', event });
+    res.status(200).json({ message: "Event updated", event });
   } catch (error) {
-    res.status(500).json({ message: 'Error updating event', error });
+    res.status(500).json({ message: "Error updating event", error });
   }
 };
 
@@ -61,12 +60,11 @@ export const deleteEvent = async (req: Request, res: Response) => {
   try {
     const event = await EventModel.findByIdAndDelete(req.params.id);
     if (!event) {
-      res.status(404).json({ message: 'Event not found' });
+      res.status(404).json({ message: "Event not found" });
       return;
     }
-    res.status(200).json({ message: 'Event deleted' });
+    res.status(200).json({ message: "Event deleted" });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting event', error });
+    res.status(500).json({ message: "Error deleting event", error });
   }
-
-
+};
