@@ -7,8 +7,8 @@ export async function getAllEvents(req: Request, res: Response) {
 }
 
 export async function createEvent(req: Request, res: Response) {
-  const events = await EventModel.create(req.body);
-  res.status(201).json(events);
+  const event = await EventModel.create(req.body);
+  res.status(201).json(event);
 }
 
 // export const getAllEvents = (req: Request, res: Response) => {

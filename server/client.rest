@@ -36,19 +36,19 @@ DELETE http://localhost:4000/api/users/662cba94d4a7d0438bb33770
 Content-Type: application/json
 
 ### GET ALL EVENTS
-GET http://localhost:4000/api/events
+GET http://localhost:4000/api/posts
 
 ### GET ONE EVENT
-GET http://localhost:4000/api/events/1
+GET http://localhost:4000/api/posts/1
 
 ### CREATE A EVENT
-POST http://localhost:4000/api/events
+POST http://localhost:4000/api/posts
 Content-Type: application/json
 
 {
-  "title": "Outdoor Festival",
+  "title": "Outdoor Festival - 1",
   "content": "A outdoor festival with a lot of bands",
-  "author": "user123",
+  "author": "662f6f449436eabb4ddaf590",
   "date": "30 April",
   "place": "Kungsbacka",
   "category": "outdoor event"
@@ -56,7 +56,7 @@ Content-Type: application/json
 
  
 ### EDIT AN EVENT
-PUT http://localhost:4000/api/events/1
+PUT http://localhost:4000/api/posts/1
 Content-Type: application/json
 
 {
@@ -69,7 +69,7 @@ Content-Type: application/json
 }
 
 ### DELETE AN EVENT
-DELETE http://localhost:4000/api/events/1
+DELETE http://localhost:4000/api/posts/1
 
 
 

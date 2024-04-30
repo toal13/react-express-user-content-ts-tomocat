@@ -17,7 +17,7 @@ export default function EventPage() {
     const fetchEvents = async () => {
       setLoading(true);
       try {
-        const response = await fetch('/api/events');
+        const response = await fetch('/api/posts');
         const events = await response.json();
         setEvents(events);
       } catch (error) {

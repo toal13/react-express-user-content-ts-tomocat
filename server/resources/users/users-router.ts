@@ -12,7 +12,7 @@ import { isLoggedIn } from './users-middlewares/isLoggedIn-middleware';
 import {
   CreateSchema,
   validationMiddleware,
-} from './users-middlewares/user-validation';
+} from './users-middlewares/registerUser-validation';
 
 const usersRouter = express.Router();
 
