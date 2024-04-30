@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserModel } from './users-model';
+import { UserModel } from '../users-model';
 
 export const isAdmin = async (
   req: Request,

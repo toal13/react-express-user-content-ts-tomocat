@@ -9,7 +9,7 @@ POST http://localhost:4000/api/users/register
 Content-Type: application/json
 
  {
-    "username": "cat-01@mail.com",
+    "username": "cat-02@mail.com",
     "password": "hey-hello"
  }
 
@@ -18,7 +18,7 @@ POST http://localhost:4000/api/users/login
 Content-Type: application/json
 
  {
-    "username": "cat-2@mail.com",
+    "username": "cat-5@mail.com",
     "password": "hey-hello"
  }
 
