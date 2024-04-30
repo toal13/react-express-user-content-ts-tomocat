@@ -1,41 +1,33 @@
-
-import express from "express";
+import cookieSession from "cookie-session";
+import "dotenv/config";
+import express, { NextFunction, Request, Response } from "express";
 import { eventsRouter } from "../resources/events/events-router";
 import usersRouter from "../resources/users/users-router";
-import cookieSession from 'cookie-session';
-import 'dotenv/config';
-
 
 export const app = express();
 
 export interface User {
-  email: string;
+  username: string;
   password: string;
 }
-
-export const users: User[] = [
-  {
-    email: 'cata@mail.com',
-    password:
-      '$argon2id$v=19$m=65536,t=3,p=4$hOw19g2mOPTQD53Zd/XIYQ$nbX5Tei0gYK3iXwB3M3iJs5zCccB2XWLixvXPHW/cIg',
-  },
-];
 
 // SKRIV DIN SERVERKOD HÄR!
 
 app.use(express.json());
 
-app.use("/api/users", usersRouter);
-app.use("/api/events", eventsRouter);
-
 app.use(
   cookieSession({
-    name: 'login',
+    name: "login",
     secret: process.env.SECRET_KEY,
     maxAge: 1000 * 10,
     httpOnly: true,
   })
 );
 
-app.use('/api/users', usersRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/posts", eventsRouter);
 
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error(err);
+  res.status(500).json({ message: err.message });
+});

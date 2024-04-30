@@ -4,5 +4,8 @@
 // ÄNDRA INTE FÖLJANDE KOD!
 export * from './app';
 // ÄNDRA FÖLJANDE KOD SÅ ATT DINA MODELLER OCH TYPER EXPORTERAS KORREKT:
-// export { Post, PostModel } from './resources/posts/post-model';
-// export { User, UserModel } from './resources/users/user-model';
+export {
+  Event as Post,
+  EventModel as PostModel,
+} from '../resources/events/events-model';
+export { User, UserModel } from '../resources/users/users-model';

@@ -9,7 +9,7 @@ POST http://localhost:4000/api/users/register
 Content-Type: application/json
 
  {
-    "email": "cata-3@mail.com",
+    "username": "cat-4@mail.com",
     "password": "hey"
  }
 
@@ -18,7 +18,7 @@ POST http://localhost:4000/api/users/login
 Content-Type: application/json
 
  {
-    "email": "cata@mail.com",
+    "username": "cat-4@mail.com",
     "password": "hey"
  }
 
@@ -27,13 +27,12 @@ PUT http://localhost:4000/api/users/1
 Content-Type: application/json
 
  { 
-    "id": 1,
-    "email": "cata@mail.com",
+    "username": "cata@mail.com",
     "password": "hello"
  }
  
 ### DELETE USER
-DELETE http://localhost:4000/api/users/1
+DELETE http://localhost:4000/api/users/662cba94d4a7d0438bb33770
 Content-Type: application/json
 
 ### GET ALL EVENTS
@@ -50,8 +49,7 @@ Content-Type: application/json
   "title": "Music Festival",
   "date": "27 May",
   "place": "Kungsbacka",
-  "category": "music event",
-  "createBy": "user123"
+  "category": "music event"
 }
 
 ### EDIT AN EVENT
