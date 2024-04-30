@@ -46,42 +46,6 @@ export const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-export const loginUser1 = async (req: Request, res: Response) => {
-  const { username, password } = req.body;
-
-  const user = await UserModel.findOne({ username: username });
-
-  if (!user) {
-    res.status(401).json('Could not find your user');
-    return;
-  }
-
-  if (user.username !== username) {
-    res.status(401).json('Incorrect username or password');
-    return;
-  }
-
-  if (!(await argon2.verify(user.password, password))) {
-    res.status(401).json('Incorrect username or password');
-    return;
-  }
-
-  if (!req.session) {
-    res.status(500).json('Session not available');
-    return;
-  }
-
-  req.session.user = {
-    _id: user?._id,
-    username: user.username,
-    isAdmin: user.isAdmin,
-  };
-
-  res
-    .status(200)
-    .json({ message: 'You are now logged in!', user: req.session.user });
-};
-
 export const loginUser = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
