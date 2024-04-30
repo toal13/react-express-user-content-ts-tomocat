@@ -21,7 +21,12 @@ usersRouter.get('/', isAdmin, getAllUsers);
 usersRouter.get('/auth', isLoggedIn, getUserSelf);
 usersRouter.post('/register', validationMiddleware(CreateSchema), registerUser);
 usersRouter.post('/login', loginUser);
-usersRouter.put('/:id', isAdmin, updateUser);
+usersRouter.put(
+  '/:id',
+  isAdmin,
+  validationMiddleware(CreateSchema),
+  updateUser
+);
 usersRouter.delete('/:id', isAdmin, deleteUser);
 
 export default usersRouter;

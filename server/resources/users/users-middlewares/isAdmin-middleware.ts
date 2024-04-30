@@ -6,15 +6,26 @@ export const isAdmin = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.session, ' from admin middleware');
-  const user = await UserModel.findOne({
-    username: req.session?.user.username,
-  });
+  console.log('Session:', req.session);
 
-  if (!user?.isAdmin) {
-    res.status(401).json('You are not authorized');
-    return;
+  if (!req.session?.user) {
+    return res.status(401).json('You are not logged in!');
   }
 
-  next();
+  try {
+    const user = await UserModel.findOne({
+      username: req.session.user.username,
+    });
+
+    if (!user?.isAdmin) {
+      return res.status(401).json('You are not authorized');
+    }
+
+    next();
+  } catch (error) {
+    console.error('Error in isAdmin middleware:', error);
+    res
+      .status(500)
+      .json({ message: 'Server error during authorization check' });
+  }
 };
