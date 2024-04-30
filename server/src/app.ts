@@ -20,7 +20,7 @@ app.use(
 );
 
 app.use('/api/users', usersRouter);
-app.use('/api/posts', eventsRouter);
+app.use('/api/events', eventsRouter);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err);

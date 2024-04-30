@@ -2,9 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import z, { ZodSchema } from 'zod';
 
 export const UserSchema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   username: z.string().email(),
-  password: z.string(),
+  password: z.string().min(6),
+  isAdmin: z.boolean().optional(),
 });
 
 export const CreateSchema = UserSchema.omit({ id: true });

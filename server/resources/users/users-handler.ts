@@ -12,7 +12,6 @@ export const getAllUsers = async (req: Request, res: Response) => {
 };
 
 export const getUserSelf = async (req: Request, res: Response) => {
-  // res.status(200).json(req.session?.user);
   if (!req.session?.user) {
     res.status(401).json(null);
   } else {
@@ -23,28 +22,28 @@ export const getUserSelf = async (req: Request, res: Response) => {
 export const registerUser = async (req: Request, res: Response) => {
   const { username, password, isAdmin } = req.body;
 
-  const hashedPassword = await argon2.hash(password);
-  // {
-  //   memoryCost: 1024,
-  //   timeCost: 1,
-  // }
+  try {
+    const duplicateUser = await UserModel.findOne({
+      username: username.trim(),
+    });
 
-  const duplicateUser = await UserModel.findOne({ username });
+    if (duplicateUser) {
+      res.status(409).json('User already created');
+      return;
+    }
 
-  if (duplicateUser) {
-    res.status(409).json('User already created');
-    return;
+    const user = await UserModel.create({
+      username: username.trim(),
+      password,
+      isAdmin: isAdmin || false,
+    });
+
+    await user.save();
+
+    res.status(201).json({ message: 'Account created', user });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
-
-  const user = await UserModel.create({
-    username,
-    password: hashedPassword,
-    isAdmin,
-  });
-
-  await user.save();
-
-  res.status(201).json({ message: 'Account created', user });
 };
 
 export const loginUser = async (req: Request, res: Response) => {
@@ -54,6 +53,11 @@ export const loginUser = async (req: Request, res: Response) => {
 
   if (!user) {
     res.status(401).json('Could not find your user');
+    return;
+  }
+
+  if (user.username !== username) {
+    res.status(401).json('Incorrect username or password');
     return;
   }
 
@@ -98,5 +102,4 @@ export const deleteUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
-  // res.status(200).json('Delete user');
 };

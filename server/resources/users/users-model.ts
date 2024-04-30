@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
+
     // unique: true,
   },
   password: {
@@ -19,6 +20,11 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.pre('save', async function (next) {
   const user = this;
+
+  if (!user.isModified('password')) {
+    next();
+    return;
+  }
   user.password = await argon2.hash(user.password);
   next();
 });
