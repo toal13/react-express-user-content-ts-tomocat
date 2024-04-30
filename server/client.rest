@@ -39,14 +39,14 @@ Content-Type: application/json
 GET http://localhost:4000/api/posts
 
 ### GET ONE EVENT
-GET http://localhost:4000/api/posts/6630b609d1a067de48f90498
+GET http://localhost:4000/api/posts/6630e1da6ccba1afa658bc14
 
 ### CREATE A EVENT
 POST http://localhost:4000/api/posts
 Content-Type: application/json
 
 {
-  "title": "Outdoor Festival - 8",
+  "title": "Outdoor Festival - 3",
   "content": "A outdoor festival with a lot of bands",
   "author": "662f6f449436eabb4ddaf590",
   "date": "30 April",
@@ -56,7 +56,7 @@ Content-Type: application/json
 
  
 ### EDIT AN EVENT
-PUT http://localhost:4000/api/posts/6630b609d1a067de48f90498
+PUT http://localhost:4000/api/posts/6630e1da6ccba1afa658bc14
 Content-Type: application/json
 
 {
@@ -69,7 +69,7 @@ Content-Type: application/json
 }
 
 ### DELETE AN EVENT
-DELETE http://localhost:4000/api/posts/6630b609d1a067de48f90498
+DELETE http://localhost:4000/api/posts/6630e1da6ccba1afa658bc14
 
 
 
