@@ -9,8 +9,8 @@ POST http://localhost:4000/api/users/register
 Content-Type: application/json
 
  {
-    "username": "cat-4@mail.com",
-    "password": "hey"
+    "username": "cat-02@mail.com",
+    "password": "hey-hello"
  }
 
 ### LOGIN USER
@@ -18,8 +18,8 @@ POST http://localhost:4000/api/users/login
 Content-Type: application/json
 
  {
-    "username": "cat-4@mail.com",
-    "password": "hey"
+    "username": "cat-5@mail.com",
+    "password": "hey-hello"
  }
 
 ### UPDATE USER
@@ -36,36 +36,40 @@ DELETE http://localhost:4000/api/users/662cba94d4a7d0438bb33770
 Content-Type: application/json
 
 ### GET ALL EVENTS
-GET http://localhost:4000/api/events
+GET http://localhost:4000/api/posts
 
 ### GET ONE EVENT
-GET http://localhost:4000/api/events/1
+GET http://localhost:4000/api/posts/1
 
 ### CREATE A EVENT
-POST http://localhost:4000/api/events
+POST http://localhost:4000/api/posts
 Content-Type: application/json
 
 {
-  "title": "Music Festival",
-  "date": "27 May",
+  "title": "Outdoor Festival - 1",
+  "content": "A outdoor festival with a lot of bands",
+  "author": "662f6f449436eabb4ddaf590",
+  "date": "30 April",
   "place": "Kungsbacka",
-  "category": "music event"
+  "category": "outdoor event"
 }
 
+ 
 ### EDIT AN EVENT
-PUT http://localhost:4000/api/events/1
+PUT http://localhost:4000/api/posts/1
 Content-Type: application/json
 
 {
   "title": "Outdoor Festival",
+  "content": "A outdoor festival with a lot of bands",
+  "author": "user123",
   "date": "30 April",
   "place": "Kungsbacka",
-  "category": "outdoor event",
-  "createBy": "user123"
+  "category": "outdoor event"
 }
 
 ### DELETE AN EVENT
-DELETE http://localhost:4000/api/events/1
+DELETE http://localhost:4000/api/posts/1
 
 
 

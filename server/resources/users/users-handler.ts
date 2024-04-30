@@ -1,6 +1,6 @@
-import argon2 from "argon2";
-import { Request, Response } from "express";
-import { UserModel } from "./users-model";
+import argon2 from 'argon2';
+import { Request, Response } from 'express';
+import { UserModel } from './users-model';
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -12,7 +12,6 @@ export const getAllUsers = async (req: Request, res: Response) => {
 };
 
 export const getUserSelf = async (req: Request, res: Response) => {
-  // res.status(200).json(req.session?.user);
   if (!req.session?.user) {
     res.status(401).json(null);
   } else {
@@ -23,47 +22,52 @@ export const getUserSelf = async (req: Request, res: Response) => {
 export const registerUser = async (req: Request, res: Response) => {
   const { username, password, isAdmin } = req.body;
 
-  const hashedPassword = await argon2.hash(password);
-  // {
-  //   memoryCost: 1024,
-  //   timeCost: 1,
-  // }
+  try {
+    const duplicateUser = await UserModel.findOne({
+      username: username.trim(),
+    });
 
-  const duplicateUser = await UserModel.findOne({ username });
+    if (duplicateUser) {
+      res.status(409).json('User already created');
+      return;
+    }
 
-  if (duplicateUser) {
-    res.status(409).json("User already created");
-    return;
+    const user = await UserModel.create({
+      username: username.trim(),
+      password,
+      isAdmin: isAdmin || false,
+    });
+
+    await user.save();
+
+    res.status(201).json({ message: 'Account created', user });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
-
-  const user = await UserModel.create({
-    username,
-    password: hashedPassword,
-    isAdmin,
-  });
-
-  await user.save();
-
-  res.status(201).json({ message: "Account created", user });
 };
 
-export const loginUser = async (req: Request, res: Response) => {
+export const loginUser1 = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   const user = await UserModel.findOne({ username: username });
 
   if (!user) {
-    res.status(401).json("Could not find your user");
+    res.status(401).json('Could not find your user');
+    return;
+  }
+
+  if (user.username !== username) {
+    res.status(401).json('Incorrect username or password');
     return;
   }
 
   if (!(await argon2.verify(user.password, password))) {
-    res.status(401).json("Incorrect username or password");
+    res.status(401).json('Incorrect username or password');
     return;
   }
 
   if (!req.session) {
-    res.status(500).json("Session not available");
+    res.status(500).json('Session not available');
     return;
   }
 
@@ -75,28 +79,62 @@ export const loginUser = async (req: Request, res: Response) => {
 
   res
     .status(200)
-    .json({ message: "You are now logged in!", user: req.session.user });
+    .json({ message: 'You are now logged in!', user: req.session.user });
+};
+
+export const loginUser = async (req: Request, res: Response) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await UserModel.findOne({ username });
+
+    if (!user) {
+      res.status(401).json('Could not find your user');
+      return;
+    }
+
+    if (!req.session) {
+      res.status(500).json('Session not available');
+      return;
+    }
+
+    if (!(await argon2.verify(user.password, password))) {
+      res.status(401).json('Incorrect username or password');
+      return;
+    }
+
+    req.session.user = {
+      _id: user._id,
+      username: user.username,
+      isAdmin: user.isAdmin,
+    };
+
+    res
+      .status(200)
+      .json({ message: 'You are now logged in!', user: req.session.user });
+  } catch (error) {
+    res.status(500).json({ message: 'An error occurred during login' });
+  }
 };
 
 export const logoutUser = (req: Request, res: Response) => {
   req.session = null;
-  res.status(204).json({ message: "You are now logged out!" });
+  res.status(204).json({ message: 'You are now logged out!' });
 };
 
 export const updateUser = (req: Request, res: Response) => {
-  res.status(200).json("Update a user");
+  res.status(200).json('Update a user');
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     const user = await UserModel.findByIdAndDelete(req.params.id);
     if (!user) {
-      res.status(404).json("User not found");
+      res.status(404).json('User not found');
       return;
     }
-    res.status(200).json("User deleted");
+    res.status(200).json('User deleted');
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
-  // res.status(200).json('Delete user');
 };

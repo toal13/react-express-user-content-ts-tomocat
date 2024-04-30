@@ -1,5 +1,6 @@
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -7,7 +8,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigation = [
     { name: 'Home', to: '/' },
-    { name: 'Events', to: '#' },
+    { name: 'Events', to: '/events' },
     { name: 'Locations', to: '#' },
     { name: 'Contact', to: '#' },
   ];
