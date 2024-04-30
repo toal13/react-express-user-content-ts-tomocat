@@ -13,15 +13,15 @@ import { isLoggedIn } from './users-middlewares/isLoggedIn-middleware';
 import {
   CreateSchema,
   validationMiddleware,
-} from './users-middlewares/registerUser-validation';
+} from './users-middlewares/user-validation';
 
 const usersRouter = express.Router();
 
-usersRouter.get('/', isAdmin, getAllUsers); // for the user with the admin role
+usersRouter.get('/', isAdmin, getAllUsers);
 usersRouter.get('/auth', isLoggedIn, getUserSelf);
 usersRouter.post('/register', validationMiddleware(CreateSchema), registerUser);
 usersRouter.post('/login', loginUser);
-usersRouter.put('/:id', isAdmin, updateUser); // for the user with the admin role
-usersRouter.delete('/:id', isAdmin, deleteUser); // for the user with the admin role
+usersRouter.put('/:id', isAdmin, updateUser);
+usersRouter.delete('/:id', isAdmin, deleteUser);
 
 export default usersRouter;
