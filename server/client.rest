@@ -39,14 +39,14 @@ Content-Type: application/json
 GET http://localhost:4000/api/posts
 
 ### GET ONE EVENT
-GET http://localhost:4000/api/posts/1
+GET http://localhost:4000/api/posts/6630b609d1a067de48f90498
 
 ### CREATE A EVENT
 POST http://localhost:4000/api/posts
 Content-Type: application/json
 
 {
-  "title": "Outdoor Festival - 1",
+  "title": "Outdoor Festival - 8",
   "content": "A outdoor festival with a lot of bands",
   "author": "662f6f449436eabb4ddaf590",
   "date": "30 April",
