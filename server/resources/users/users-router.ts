@@ -20,7 +20,7 @@ const usersRouter = express.Router();
 usersRouter.get('/', isAdmin, getAllUsers);
 usersRouter.get('/auth', isLoggedIn, getUserSelf);
 usersRouter.post('/register', validationMiddleware(CreateSchema), registerUser);
-usersRouter.post('/login', loginUser);
+usersRouter.post('/login', validationMiddleware(CreateSchema), loginUser);
 usersRouter.put(
   '/:id',
   isAdmin,

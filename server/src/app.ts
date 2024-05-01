@@ -16,7 +16,6 @@ app.use(
     secret: process.env.SECRET_KEY,
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: 'lax', // This setting can affect how cookies are sent cross-domain
   })
 );
 

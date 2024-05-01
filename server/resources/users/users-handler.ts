@@ -45,6 +45,9 @@ export const registerUser = async (req: Request, res: Response) => {
       return res.status(409).json('User already exists');
     }
 
+    if (!username || !password)
+      return res.status(400).json('Username and password are required');
+
     const user = new UserModel({
       username: username.trim(),
       password,
