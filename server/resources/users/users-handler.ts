@@ -88,6 +88,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
   try {
     const user = await UserModel.findOne({ username });
+    console.log('User:', user);
     if (!user) {
       return res.status(401).json('Incorrect username or password');
     }
