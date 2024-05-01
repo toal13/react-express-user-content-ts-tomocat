@@ -37,6 +37,15 @@ export const getUserSelf = async (req: Request, res: Response) => {
 export const registerUser = async (req: Request, res: Response) => {
   const { username, password, isAdmin } = req.body;
 
+  // Check for missing or incorrect values
+  if (typeof username !== 'string' || !username || !username.includes('@')) {
+    return res.status(400).json({ message: 'Invalid or missing username' });
+  }
+
+  if (typeof password !== 'string' || !password) {
+    return res.status(400).json({ message: 'Invalid or missing password' });
+  }
+
   try {
     const duplicateUser = await UserModel.findOne({
       username: username.trim(),
@@ -47,6 +56,12 @@ export const registerUser = async (req: Request, res: Response) => {
 
     if (!username || !password)
       return res.status(400).json('Username and password are required');
+
+    if (password.length < 6) {
+      return res
+        .status(400)
+        .json({ message: 'Password must be at least 6 characters long' });
+    }
 
     const user = new UserModel({
       username: username.trim(),
