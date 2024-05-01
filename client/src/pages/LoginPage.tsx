@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -13,11 +12,13 @@ export default function LoginPage() {
     setPassword(e.target.value);
   };
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e, action) => {
     e.preventDefault();
+    const url = action === 'login' ? '/api/users/login' : '/api/users/register';
+    const method = action === 'login' ? 'POST' : 'POST';
 
-    const response = await fetch('/api/users/login', {
-      method: 'POST',
+    const response = await fetch(url, {
+      method: method,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -27,9 +28,9 @@ export default function LoginPage() {
 
     const data = await response.json();
     if (response.ok) {
-      console.log('Login successful', data);
+      console.log(data);
     } else {
-      console.error('Login failed', data);
+      console.error(data);
     }
   };
 
@@ -44,7 +45,7 @@ export default function LoginPage() {
         </p>
       </div>
       <form
-        onSubmit={handleLogin}
+        // onSubmit={handleLogin}
         method='POST'
         className='mx-auto mt-14 max-w-xl sm:w-96'
       >
@@ -97,18 +98,20 @@ export default function LoginPage() {
         <div className='mt-10'>
           <button
             type='submit'
+            onClick={(e) => handleSubmit(e, 'login')}
             className='block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
           >
             Sign in
           </button>
           <div className=' text-gray-600 mt-5'>
             New to Evento?{' '}
-            <Link
-              to='/register'
-              className='text-indigo-500 font-semibold hover:underline'
+            <button
+              type='submit'
+              onClick={(e) => handleSubmit(e, 'register')}
+              className='text-indigo-500 font-semibold hover:underline ml-4'
             >
               Sign up now
-            </Link>
+            </button>
           </div>
         </div>
       </form>
