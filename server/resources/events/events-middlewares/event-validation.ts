@@ -15,7 +15,7 @@ export const CreateEventSchema = ValidationEventSchema.omit({ id: true });
 export type Event = z.infer<typeof ValidationEventSchema>;
 export type CreateEvent = z.infer<typeof CreateEventSchema>;
 
-export const validationMiddleware =
+export const validationEventMiddleware =
   (schema: ZodSchema) =>
   (req: Request, res: Response, next: e.NextFunction) => {
     const result = schema.safeParse(req.body);

@@ -19,7 +19,6 @@ export async function createEvent(req: Request, res: Response) {
     });
     res.status(201).json(event);
   } catch (error) {
-    console.error('Error creating event:', error);
     res.status(500).json('An error occurred while creating the event.');
   }
 }
@@ -47,10 +46,10 @@ export const updateEvent = async (req: Request, res: Response) => {
       }
     );
 
-    if (!eventToUpdate) {
-      res.status(404).json('Event not found');
-      return;
-    }
+    // if (!eventToUpdate) {
+    //   res.status(404).json('Event not found');
+    //   return;
+    // }
 
     if (
       eventToUpdate.author.toString() !== req.session!.user._id.toString() &&
