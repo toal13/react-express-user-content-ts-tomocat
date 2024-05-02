@@ -42,10 +42,20 @@ export const updateEvent = async (req: Request, res: Response) => {
     const event = await EventModel.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
+
     if (!event) {
       res.status(404).json('Event not found');
       return;
     }
+
+    if (
+      event.author.toString() !== req.session!.user._id.toString() &&
+      !req.session!.user.isAdmin
+    ) {
+      res.status(403).json('You are not allowed to update this event');
+      return;
+    }
+
     res.status(200).json(event);
   } catch (error) {
     res.status(500).json(error);
