@@ -9,7 +9,7 @@ POST http://localhost:4000/api/users/register
 Content-Type: application/json
 
  {
-    "username": "cat-02@mail.com",
+    "username": "cat-9@mail.com",
     "password": "hey-hello"
  }
 
@@ -18,35 +18,35 @@ POST http://localhost:4000/api/users/login
 Content-Type: application/json
 
  {
-    "username": "cat-5@mail.com",
+    "username": "cat-03@mail.com",
     "password": "hey-hello"
  }
 
 ### UPDATE USER
-PUT http://localhost:4000/api/users/1
+PUT http://localhost:4000/api/users/6631726c93081557518a7e3b
 Content-Type: application/json
 
  { 
-    "username": "cata@mail.com",
-    "password": "hello"
+    "username": "cat-updated1@mail.com",
+    "password": "hey-hello"
  }
  
 ### DELETE USER
-DELETE http://localhost:4000/api/users/662cba94d4a7d0438bb33770
+DELETE http://localhost:4000/api/users/6631726c93081557518a7e3b
 Content-Type: application/json
 
 ### GET ALL EVENTS
 GET http://localhost:4000/api/posts
 
 ### GET ONE EVENT
-GET http://localhost:4000/api/posts/6630b609d1a067de48f90498
+GET http://localhost:4000/api/posts/6630e1da6ccba1afa658bc14
 
 ### CREATE A EVENT
 POST http://localhost:4000/api/posts
 Content-Type: application/json
 
 {
-  "title": "Outdoor Festival - 8",
+  "title": "Outdoor Festival - 3",
   "content": "A outdoor festival with a lot of bands",
   "author": "662f6f449436eabb4ddaf590",
   "date": "30 April",
@@ -56,7 +56,7 @@ Content-Type: application/json
 
  
 ### EDIT AN EVENT
-PUT http://localhost:4000/api/posts/6630b609d1a067de48f90498
+PUT http://localhost:4000/api/posts/6630e1da6ccba1afa658bc14
 Content-Type: application/json
 
 {
@@ -69,7 +69,7 @@ Content-Type: application/json
 }
 
 ### DELETE AN EVENT
-DELETE http://localhost:4000/api/posts/6630b609d1a067de48f90498
+DELETE http://localhost:4000/api/posts/6630e1da6ccba1afa658bc14
 
 
 

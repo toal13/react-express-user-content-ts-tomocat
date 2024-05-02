@@ -12,9 +12,9 @@ app.use(express.json());
 
 app.use(
   cookieSession({
-    name: 'login',
+    name: 'session',
     secret: process.env.SECRET_KEY,
-    maxAge: 1000 * 10,
+    maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
   })
 );

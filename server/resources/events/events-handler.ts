@@ -1,27 +1,30 @@
-import { Request, Response } from "express";
-import { EventModel } from "./events-model";
+import { Request, Response } from 'express';
+import { EventModel } from './events-model';
 
 export async function getAllEvents(req: Request, res: Response) {
   try {
-    const events = await EventModel.find({});
+    const events = await EventModel.find({}).populate('author', 'username');
     res.status(200).json(events);
   } catch (error) {
-    console.error("Error fetching all events:", error);
+    console.error('Error fetching all events:', error);
     res
       .status(500)
-      .json({ message: "An error occurred while fetching all events." });
+      .json({ message: 'An error occurred while fetching all events.' });
   }
 }
 
 export async function createEvent(req: Request, res: Response) {
   try {
-    const event = await EventModel.create(req.body);
+    const event = await EventModel.create({
+      ...req.body,
+      author: req.session!.user._id,
+    });
     res.status(201).json(event);
   } catch (error) {
-    console.error("Error creating event:", error);
+    console.error('Error creating event:', error);
     res
       .status(500)
-      .json({ message: "An error occurred while creating the event." });
+      .json({ message: 'An error occurred while creating the event.' });
   }
 }
 
@@ -30,14 +33,14 @@ export async function getEvent(req: Request, res: Response) {
     const eventId = req.params.id;
     const event = await EventModel.findById(eventId);
     if (!event) {
-      return res.status(404).json({ message: "Event not found" });
+      return res.status(404).json({ message: 'Event not found' });
     }
     res.status(200).json(event);
   } catch (error) {
-    console.error("Error fetching event:", error);
+    console.error('Error fetching event:', error);
     res
       .status(500)
-      .json({ message: "An error occurred while fetching the event." });
+      .json({ message: 'An error occurred while fetching the event.' });
   }
 }
 

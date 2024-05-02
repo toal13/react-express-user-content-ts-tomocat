@@ -14,11 +14,10 @@ export type CreateUser = z.infer<typeof CreateSchema>;
 
 export const validationMiddleware =
   (schema: ZodSchema) => (req: Request, res: Response, next: NextFunction) => {
-    try {
-      schema.parse(req.body);
+    const result = schema.safeParse(req.body);
+    if (result.success) {
       next();
-    } catch (error: any) {
-      res.status(400).json({ message: error.errors });
-      return;
+    } else {
+      res.status(400).json(result.error.message);
     }
   };
