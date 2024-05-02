@@ -33,7 +33,6 @@ export async function getEvent(req: Request, res: Response) {
     }
     res.status(200).json(event);
   } catch (error) {
-    console.error(error);
     res.status(500).json('An error occurred while fetching the event.');
   }
 }
