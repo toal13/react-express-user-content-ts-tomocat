@@ -4,6 +4,7 @@ import {
   getAllUsers,
   getUserSelf,
   loginUser,
+  logoutUser,
   registerUser,
   updateUser,
 } from './users-handler';
@@ -19,8 +20,9 @@ const usersRouter = express.Router();
 
 usersRouter.get('/', isAdmin, getAllUsers);
 usersRouter.get('/auth', isLoggedIn, getUserSelf);
-usersRouter.post('/register', registerUser);
+usersRouter.post('/register', validationMiddleware(CreateSchema), registerUser);
 usersRouter.post('/login', loginUser);
+usersRouter.post('/logout', logoutUser);
 usersRouter.put(
   '/:id',
   isAdmin,

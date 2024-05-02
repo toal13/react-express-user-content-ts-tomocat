@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -12,7 +12,10 @@ export default function LoginPage() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = async (e, action) => {
+  const handleSubmit = async (
+    e: MouseEvent<HTMLButtonElement, MouseEvent>,
+    action: string
+  ) => {
     e.preventDefault();
     const url = action === 'login' ? '/api/users/login' : '/api/users/register';
     const method = action === 'login' ? 'POST' : 'POST';
@@ -38,7 +41,7 @@ export default function LoginPage() {
     <div className='isolate bg-transparent px-6 py-2 sm:py-32 lg:px-8'>
       <div className='mx-auto max-w-2xl text-center'>
         <h2 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
-          Welcome back
+          Welcome
         </h2>
         <p className='mt-2 text-lg leading-8 text-gray-600'>
           Please sign in to continue.
@@ -100,7 +103,7 @@ export default function LoginPage() {
             Sign in
           </button>
           <div className=' text-gray-600 mt-5'>
-            New to Evento?{' '}
+            New to GoGothenburg?{' '}
             <button
               type='submit'
               onClick={(e) => handleSubmit(e, 'register')}

@@ -37,15 +37,6 @@ export const getUserSelf = async (req: Request, res: Response) => {
 export const registerUser = async (req: Request, res: Response) => {
   const { username, password, isAdmin } = req.body;
 
-  // Check for missing or incorrect values
-  if (typeof username !== 'string' || !username || !username.includes('@')) {
-    return res.status(400).json({ message: 'Invalid or missing username' });
-  }
-
-  if (typeof password !== 'string' || !password) {
-    return res.status(400).json({ message: 'Invalid or missing password' });
-  }
-
   try {
     const duplicateUser = await UserModel.findOne({
       username: username.trim(),
@@ -106,12 +97,10 @@ export const loginUser = async (req: Request, res: Response) => {
       };
     }
 
-    res
-      .status(200)
-      .json({ message: 'You are now logged in!', user: req.session?.user });
+    res.status(200).json(req.session?.user);
   } catch (error) {
     console.error('Login Error: ', error);
-    res.status(500).json({ message: 'An error occurred during login' });
+    res.status(500).json('An error occurred during login');
   }
 };
 
