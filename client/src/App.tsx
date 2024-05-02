@@ -4,7 +4,7 @@ import Header from './components/Header';
 
 export default function App() {
   return (
-    <div className='flex flex-col min-h-screen bg-orange-50'>
+    <div className='flex flex-col min-h-screen bg-fuchsia-50'>
       <Header />
       <main className='flex-grow flex items-center justify-center'>
         <Outlet />

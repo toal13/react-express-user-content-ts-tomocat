@@ -44,11 +44,7 @@ export default function LoginPage() {
           Please sign in to continue.
         </p>
       </div>
-      <form
-        // onSubmit={handleLogin}
-        method='POST'
-        className='mx-auto mt-14 max-w-xl sm:w-96'
-      >
+      <form method='POST' className='mx-auto mt-14 max-w-xl sm:w-96'>
         <div className='grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2'>
           <div className='sm:col-span-2'>
             <label

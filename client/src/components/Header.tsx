@@ -11,6 +11,7 @@ export default function Header() {
     { name: 'Locations', to: '#' },
     { name: 'Contact', to: '#' },
   ];
+
   return (
     <header className='absolute inset-x-0 top-0 z-10'>
       <nav
@@ -22,13 +23,9 @@ export default function Header() {
             to='/'
             className='-m-1.5 p-1.5 flex justify-center items-center'
           >
-            <img
-              className=' h-10'
-              src='https://extremenomads.life/wp-content/uploads/2020/07/cropped-exnomad-newlogo.png'
-              alt=''
-            />
-            <h1 className=' text-3xl p-2 text-orange-600 font-extrabold'>
-              Evento
+            <img className=' h-16 mt-4' src='logo.png' alt='' />
+            <h1 className=' text-3xl p-2 text-indigo-600 font-extrabold'>
+              GoGothenburg
             </h1>
           </Link>
         </div>
@@ -47,7 +44,7 @@ export default function Header() {
             <Link
               key={item.name}
               to={item.to}
-              className='text-sm font-semibold leading-6 text-gray-900 hover:text-orange-600 transition-all'
+              className='text-md font-semibold leading-6 text-gray-900 hover:text-indigo-600 transition-all'
             >
               {item.name}
             </Link>
@@ -56,7 +53,7 @@ export default function Header() {
         <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
           <Link
             to='/login'
-            className='text-sm font-semibold leading-6 text-gray-900 hover:text-orange-600 transition-all'
+            className='text-md font-semibold leading-6 text-gray-900 hover:text-indigo-600 transition-all'
           >
             Sign in <span aria-hidden='true'>&rarr;</span>
           </Link>
@@ -72,12 +69,8 @@ export default function Header() {
         <Dialog.Panel className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
           <div className='flex items-center justify-between'>
             <a href='#' className='-m-1.5 p-1.5'>
-              <span className='sr-only'>Your Company</span>
-              <img
-                className='h-8 w-auto'
-                src='https://extremenomads.life/wp-content/uploads/2020/07/cropped-exnomad-newlogo.png'
-                alt=''
-              />
+              <span className='sr-only'>GoGothenburg</span>
+              <img className='h-14 w-auto' src='logo.png' alt='' />
             </a>
             <button
               type='button'
