@@ -81,7 +81,9 @@ export const deleteEvent = async (req: Request, res: Response) => {
       res.status(403).json('Not authorized to delete this event');
       return;
     }
+
     await EventModel.findByIdAndDelete(req.params.id);
+
     res.status(204).json('Event deleted');
   } catch (error) {
     res.status(500).json(error);

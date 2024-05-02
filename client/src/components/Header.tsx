@@ -2,6 +2,7 @@ import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import DropdownMenu from './DropdownMenu';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -51,12 +52,13 @@ export default function Header() {
           ))}
         </div>
         <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
-          <Link
+          <DropdownMenu />
+          {/* <Link
             to='/login'
             className='text-md font-semibold leading-6 text-gray-900 hover:text-indigo-600 transition-all'
           >
             Sign in <span aria-hidden='true'>&rarr;</span>
-          </Link>
+          </Link> */}
         </div>
       </nav>
       <Dialog
