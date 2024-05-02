@@ -46,10 +46,10 @@ export const updateEvent = async (req: Request, res: Response) => {
       }
     );
 
-    // if (!eventToUpdate) {
-    //   res.status(404).json('Event not found');
-    //   return;
-    // }
+    if (!eventToUpdate) {
+      res.status(404).json('Event not found');
+      return;
+    }
 
     if (
       eventToUpdate.author.toString() !== req.session!.user._id.toString() &&
