@@ -15,7 +15,10 @@ export async function getAllEvents(req: Request, res: Response) {
 
 export async function createEvent(req: Request, res: Response) {
   try {
-    const event = await EventModel.create(req.body);
+    const event = await EventModel.create({
+      ...req.body,
+      author: req.session!.user._id,
+    });
     res.status(201).json(event);
   } catch (error) {
     console.error('Error creating event:', error);
