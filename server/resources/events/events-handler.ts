@@ -29,7 +29,7 @@ export const getEvent = async (req: Request, res: Response) => {
     const eventId = req.params.id;
     const event = await EventModel.findById(eventId);
     if (!event) {
-      return res.status(404).json("Event not found");
+      return res.status(404).json(`Event with ${eventId} is not found`);
     }
     res.status(200).json(event);
   } catch (error) {
