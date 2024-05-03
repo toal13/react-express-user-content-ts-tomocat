@@ -68,7 +68,6 @@ export const updateEvent = async (req: Request, res: Response) => {
 
 export const deleteEvent = async (req: Request, res: Response) => {
   try {
-    // const event = await EventModel.findByIdAndDelete(req.params.id);
     const event = await EventModel.findOne({ _id: req.params.id });
     if (!event) {
       res.status(404).json('Event not found');
