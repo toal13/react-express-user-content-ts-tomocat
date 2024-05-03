@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { CiHeart } from "react-icons/ci";
 import { MdOutlinePlace } from "react-icons/md";
 import { getEvents } from "../api/events-callers";
 
@@ -49,7 +50,6 @@ export default function EventPage() {
                     {event.date.split(" ")[0]}
                   </span>
                 </div>
-
                 <div className="pt-5 pb-5 pl-5">
                   <a href="#">
                     <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
@@ -92,6 +92,9 @@ export default function EventPage() {
                       />
                     </svg>
                   </a>
+                </div>
+                <div className="flex mt-6">
+                  <CiHeart className="size-7"/>
                 </div>
               </div>
             </div>
