@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Square {
   id: number;
@@ -10,16 +11,27 @@ export default function HomePage() {
   return (
     <section className='w-full px-8 mt-28 sm:mt-10 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto'>
       <div>
-        <h3 className='text-4xl md:text-5xl font-semibold'>
+        <h3 className='text-3xl md:text-5xl  font-semibold'>
           Uncover the Pulse of Gothenburg
         </h3>
         <p className='text-base md:text-lg text-slate-700 my-4 md:my-6 max-w-lg'>
           Explore the best events across the city, from live concerts to local
           festivals.
         </p>
-        <button className='bg-indigo-600 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-500 active:scale-95'>
-          Explore Events
-        </button>
+        <div className='flex gap-2'>
+          <Link
+            to={'/events'}
+            className='bg-indigo-600 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-500 active:scale-95'
+          >
+            Explore Events
+          </Link>
+          <Link
+            to={'/login'}
+            className=' bg-indigo-100/75 text-black font-medium py-2 px-4 rounded transition-all hover:bg-indigo-100/50 active:scale-95'
+          >
+            Create an Event <span aria-hidden='true'>&rarr;</span>
+          </Link>
+        </div>
       </div>
       <ShuffleGrid />
     </section>
