@@ -1,11 +1,18 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { MouseEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const queryClient = useQueryClient();
+
+  queryClient.invalidateQueries({ queryKey: ['users'] });
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+    setUsername(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -18,20 +25,21 @@ export default function LoginPage() {
   ) => {
     e.preventDefault();
     const url = action === 'login' ? '/api/users/login' : '/api/users/register';
-    const method = action === 'login' ? 'POST' : 'POST';
+    const method = 'POST';
 
     const response = await fetch(url, {
       method: method,
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username: email, password: password }),
+      body: JSON.stringify({ username: username, password: password }),
     });
-    console.log(JSON.stringify({ username: email, password: password }));
+    console.log(JSON.stringify({ username: username, password: password }));
 
     const data = await response.json();
     if (response.ok) {
       console.log(data);
+      navigate('/');
     } else {
       console.error(data);
     }
@@ -61,7 +69,7 @@ export default function LoginPage() {
                 type='email'
                 name='username'
                 id='email'
-                value={email}
+                value={username}
                 onChange={handleEmailChange}
                 autoComplete='email'
                 className='block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 outline-none '

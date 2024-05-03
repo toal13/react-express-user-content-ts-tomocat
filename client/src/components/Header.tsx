@@ -1,16 +1,25 @@
 import { Dialog } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useQuery } from '@tanstack/react-query';
+import {
+  Bars3Icon,
+  UserCircleIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getLoggedInUser } from '../api/user-callers';
-import DropdownMenu from './DropdownMenu';
+import { User, getLoggedInUser, logoutUser } from '../api/user-callers';
 
 export default function Header() {
-  const { isLoading, data: user } = useQuery({
-    queryKey: ['user'],
+  const queryClient = useQueryClient();
+  const { isLoading, data: user } = useQuery<User[]>({
+    queryKey: ['users'],
     queryFn: getLoggedInUser,
   });
+
+  const handleLogout = async () => {
+    await logoutUser();
+    queryClient.invalidateQueries({ queryKey: ['users'] });
+  };
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigation = [
@@ -19,8 +28,6 @@ export default function Header() {
     { name: 'Locations', to: '#' },
     { name: 'Contact', to: '#' },
   ];
-
-  // { user ? <i>{user.username}</i> : <button>Login</button>}
 
   return (
     <header className='absolute inset-x-0 top-0 z-10'>
@@ -60,14 +67,23 @@ export default function Header() {
             </Link>
           ))}
         </div>
-        <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
-          <DropdownMenu />
-          {/* <Link
-            to='/login'
-            className='font-semibold leading-6 text-gray-900 transition-all text-md hover:text-indigo-600'
+        <div className='hidden lg:flex lg:flex-1 lg:justify-end gap-4 '>
+          {user ? (
+            <UserCircleIcon className=' size-8 hover:text-indigo-600' />
+          ) : (
+            <Link
+              to={'/login'}
+              className=' font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600 border border-black/10 px-3 py-1 rounded-lg'
+            >
+              Login
+            </Link>
+          )}
+          <button
+            className='font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600'
+            onClick={handleLogout}
           >
-            Sign in <span aria-hidden='true'>&rarr;</span>
-          </Link> */}
+            Logout
+          </button>
         </div>
       </nav>
       <Dialog
