@@ -9,6 +9,7 @@ export const ValidationEventSchema = z.object({
   date: z.string().optional(),
   place: z.string().optional(),
   category: z.string().optional(),
+  image: z.string().optional(),
 });
 
 export const CreateEventSchema = ValidationEventSchema.omit({ id: true });

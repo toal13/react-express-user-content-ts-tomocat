@@ -7,6 +7,7 @@ const EventSchema = new mongoose.Schema({
   date: { type: String, required: false },
   place: { type: String, required: false },
   category: { type: String, required: false },
+  image: { type: String, required: false },
 });
 
 export type Event = InferSchemaType<typeof EventSchema>;

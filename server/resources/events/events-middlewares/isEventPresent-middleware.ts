@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { EventModel } from './events-model';
+import { EventModel } from '../events-model';
 
 export const isEventPresent = async (
   req: Request,

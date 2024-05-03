@@ -7,6 +7,7 @@ interface Event {
   place: string;
   category: string;
   createBy: string;
+  image: string;
 }
 
 export default function EventPage() {
@@ -37,8 +38,9 @@ export default function EventPage() {
       ) : (
         <ul>
           {events.map((event) => (
-            <li className=' text-black' key={event._id}>
+            <li className=' text-black p-4' key={event._id}>
               {event.title}
+              <img src={event.image} alt={event.title} className=' size-12' />
             </li>
           ))}
         </ul>

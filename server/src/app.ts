@@ -1,7 +1,7 @@
 import cookieSession from 'cookie-session';
 import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
-import { eventsRouter } from '../resources/events/events-middlewares/events-router';
+import { eventsRouter } from '../resources/events/events-router';
 import usersRouter from '../resources/users/users-router';
 
 export const app = express();

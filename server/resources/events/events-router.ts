@@ -1,17 +1,17 @@
 import express from 'express';
-import { isLoggedIn } from '../../users/users-middlewares/isLoggedIn-middleware';
+import { isLoggedIn } from '../users/users-middlewares/isLoggedIn-middleware';
 import {
   createEvent,
   deleteEvent,
   getAllEvents,
   getEvent,
   updateEvent,
-} from '../events-handler';
-import { isEventPresent } from '../isEventPresent-middleware';
+} from './events-handler';
 import {
   CreateEventSchema,
   validationEventMiddleware,
-} from './event-validation';
+} from './events-middlewares/event-validation';
+import { isEventPresent } from './events-middlewares/isEventPresent-middleware';
 
 export const eventsRouter = express.Router();
 
