@@ -2,7 +2,7 @@ import e, { Request, Response } from 'express';
 import z, { ZodSchema } from 'zod';
 
 export const ValidationEventSchema = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   title: z.string(),
   content: z.string(),
   author: z.string(),
@@ -12,7 +12,12 @@ export const ValidationEventSchema = z.object({
   image: z.string().optional(),
 });
 
-export const CreateEventSchema = ValidationEventSchema.omit({ id: true });
+export const CreateEventSchema = ValidationEventSchema.extend({
+  author: z.string().optional(),
+}).omit({ id: true });
+
+export const UpdateEventSchema = ValidationEventSchema.omit({ id: true });
+
 export type Event = z.infer<typeof ValidationEventSchema>;
 export type CreateEvent = z.infer<typeof CreateEventSchema>;
 

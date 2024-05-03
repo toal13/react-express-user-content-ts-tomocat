@@ -45,30 +45,17 @@ export const registerUser = async (req: Request, res: Response) => {
       return res.status(409).json('User already exists');
     }
 
-    if (!username || !password)
-      return res.status(400).json('Username and password are required');
-
-    if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ message: 'Password must be at least 6 characters long' });
-    }
-
-    const user = new UserModel({
+    const user = await UserModel.create({
       username: username.trim(),
       password,
       isAdmin: isAdmin || false,
     });
 
-    await user.save();
-
-    const userResponse = {
+    res.status(201).json({
       _id: user._id,
       username: user.username,
       isAdmin: user.isAdmin,
-    };
-
-    res.status(201).json(userResponse);
+    });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
