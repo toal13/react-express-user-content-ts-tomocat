@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getEvents } from '../api/events-callers';
 
 interface Event {
   _id: string;
@@ -11,36 +12,21 @@ interface Event {
 }
 
 export default function EventPage() {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch('/api/posts');
-        const events = await response.json();
-        setEvents(events);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchEvents();
-  }, []);
+  const { isLoading, data: events } = useQuery<Event[]>({
+    queryKey: ['events'],
+    queryFn: getEvents,
+  });
 
   return (
     <div>
       <h2>Events</h2>
-      {loading ? (
+      {isLoading ? (
         <p>Loading...</p>
       ) : (
         <ul>
-          {events.map((event) => (
-            <li className=' text-black p-4' key={event._id}>
+          {events?.map((event) => (
+            <li className='p-4 text-black ' key={event._id}>
               {event.title}
-              <img src={event.image} alt={event.title} className=' size-12' />
             </li>
           ))}
         </ul>
