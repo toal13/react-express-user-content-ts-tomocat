@@ -1,145 +1,89 @@
 export default function CreateEvent() {
   return (
-    <div className="flex items-center justify-center p-12">
-      <div className="mx-auto w-full max-w-[550px] ">
-        <form>
-          <div className="mb-5">
-            <label
-              for="title"
-              className="mb-3 block text-base font-medium text-[#07074D]"
-            >
+    <section className="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 mt-20">
+      <h1 className="text-xl font-bold text-white capitalize dark:text-white">
+        Create event
+      </h1>
+      <form>
+        <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+          <div>
+            <label className="text-white dark:text-gray-200" for="username">
               Title
             </label>
             <input
+              id="title"
               type="text"
-              name="name"
-              id="name"
-              placeholder="Title"
-              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
             />
-          </div>
-          <div className="mb-5">
-            <label
-              for="Image"
-              className="mb-3 block text-base font-medium text-[#07074D]"
-            >
-              URL
-            </label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Image"
-              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              for="description"
-              className="mb-3 block text-base font-medium text-[#07074D]"
-            >
-              Description
-            </label>
-            <input
-              type="text"
-              id="description"
-              className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            />
-          </div>
-          <div className="-mx-3 flex flex-wrap">
-            <div className="w-full px-3 sm:w-1/2">
-              <div className="mb-5">
-                <label
-                  for="date"
-                  className="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  Date
-                </label>
-                <input
-                  type="date"
-                  name="date"
-                  id="date"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                />
-              </div>
-            </div>
-            <div className="w-full px-3 sm:w-1/2">
-              <div className="mb-5">
-                <label
-                  for="time"
-                  className="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  Time
-                </label>
-                <input
-                  type="time"
-                  name="time"
-                  id="time"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="mb-5 pt-3">
-            <label className="mb-5 block text-base font-semibold text-[#07074D] sm:text-xl">
-              Address Details
-            </label>
-            <div className="-mx-3 flex flex-wrap">
-              <div className="w-full px-3 sm:w-1/2">
-                <div className="mb-5">
-                  <input
-                    type="text"
-                    name="area"
-                    id="area"
-                    placeholder="Enter area"
-                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  />
-                </div>
-              </div>
-              <div className="w-full px-3 sm:w-1/2">
-                <div className="mb-5">
-                  <input
-                    type="text"
-                    name="city"
-                    id="city"
-                    placeholder="Enter city"
-                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  />
-                </div>
-              </div>
-              <div className="w-full px-3 sm:w-1/2">
-                <div className="mb-5">
-                  <input
-                    type="text"
-                    name="state"
-                    id="state"
-                    placeholder="Enter state"
-                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  />
-                </div>
-              </div>
-              <div className="w-full px-3 sm:w-1/2">
-                <div className="mb-5">
-                  <input
-                    type="text"
-                    name="post-code"
-                    id="post-code"
-                    placeholder="Post Code"
-                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  />
-                </div>
-              </div>
-            </div>
           </div>
 
           <div>
-            <button class="hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none">
-              Book Appointment
-            </button>
+            <label className="text-white dark:text-gray-200" for="emailAddress">
+              Adress
+            </label>
+            <input
+              id="place"
+              type="text"
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+            />
           </div>
-        </form>
-      </div>
-    </div>
+          <div>
+            <label
+              className="text-white dark:text-gray-200"
+              for="passwordConfirmation"
+            >
+              Date
+            </label>
+            <input
+              id="date"
+              type="date"
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+            />
+          </div>
+          <div>
+            <label
+              className="text-white dark:text-gray-200"
+              for="passwordConfirmation"
+            >
+              Time
+            </label>
+            <input
+              id="time"
+              type="time"
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+            />
+          </div>
+          <div>
+            <label className="text-white dark:text-gray-200" for="password">
+              URL
+            </label>
+            <input
+              id="password"
+              type="password"
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+            />
+          </div>
+          <div>
+            <label
+              className="text-white dark:text-gray-200"
+              for="passwordConfirmation"
+            >
+              Description
+            </label>
+            <textarea
+              id="content"
+              type="textarea"
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+            ></textarea>
+          </div>
+        </div>
+
+        <div className="flex justify-end mt-6">
+          <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">
+            Save
+          </button>
+        </div>
+      </form>
+    </section>
   );
 }
