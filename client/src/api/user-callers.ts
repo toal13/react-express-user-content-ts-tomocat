@@ -10,44 +10,58 @@ export async function getLoggedInUser() {
 }
 
 export async function loginUser({ username, password }: User) {
-  const response = await fetch('/api/users/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ username, password }),
-  });
-  console.log(JSON.stringify({ username, password }));
+  try {
+    const response = await fetch('/api/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    });
 
-  const data = await response.json();
-  if (response.ok) {
-    console.log(data);
-  } else {
-    console.error(data);
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || 'An error occurred during login');
+    }
+    return data;
+  } catch (error) {
+    console.error('Login failed:', error);
+    throw error;
   }
 }
 
 export async function registerUser({ username, password }: User) {
-  const response = await fetch('/api/users/register', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ username, password }),
-  });
-  console.log(JSON.stringify({ username, password }));
+  try {
+    const response = await fetch('/api/users/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    });
+    console.log(JSON.stringify({ username: username, password: password }));
 
-  const data = await response.json();
-  if (response.ok) {
-    console.log(data);
-  } else {
-    console.error(data);
+    const data = await response.json();
+    if (!response.ok) {
+      console.error(data);
+      throw new Error(data.message || 'An error occurred during registration');
+    }
+    return data;
+  } catch (error) {
+    console.error('Registration failed:', error);
+    throw error;
   }
 }
 
 export async function logoutUser() {
   const response = await fetch('/api/users/logout', { method: 'POST' });
   if (!response.ok) {
-    console.error('Failed to log out');
+    console.error('An error occurred during logout');
   }
 }

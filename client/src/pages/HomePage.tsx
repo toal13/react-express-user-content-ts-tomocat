@@ -1,6 +1,9 @@
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getEvents } from '../api/events-callers';
+import { User } from '../api/user-callers';
 import { squareData } from '../data/data';
 
 interface Square {
@@ -9,6 +12,11 @@ interface Square {
 }
 
 export default function HomePage() {
+  const { isLoading, data: user } = useQuery<User[]>({
+    queryKey: ['users'],
+    queryFn: getEvents,
+  });
+
   return (
     <section className='w-full px-8 mt-28 sm:mt-10 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto'>
       <div>
@@ -27,7 +35,7 @@ export default function HomePage() {
             Explore Events
           </Link>
           <Link
-            to={'/login'}
+            to={user ? '/events' : '/login'}
             className=' bg-indigo-100/75 text-black font-medium py-2 px-4 rounded transition-all hover:bg-indigo-100/50 active:scale-95'
           >
             Create an Event <span aria-hidden='true'>&rarr;</span>

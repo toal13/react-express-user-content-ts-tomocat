@@ -17,6 +17,7 @@ export default function Header() {
   });
 
   const handleLogout = async () => {
+    console.log('Logging out');
     await logoutUser();
     queryClient.invalidateQueries({ queryKey: ['users'] });
   };
@@ -67,24 +68,28 @@ export default function Header() {
             </Link>
           ))}
         </div>
-        <div className='hidden lg:flex lg:flex-1 lg:justify-end gap-4 '>
-          {user ? (
-            <UserCircleIcon className=' size-8 hover:text-indigo-600' />
-          ) : (
-            <Link
-              to={'/login'}
-              className=' font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600 border border-black/10 px-3 py-1 rounded-lg'
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className='hidden lg:flex lg:flex-1 lg:justify-end gap-4 '>
+            {user ? (
+              <UserCircleIcon className=' size-8 hover:text-indigo-600' />
+            ) : (
+              <Link
+                to={'/login'}
+                className=' font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600 border border-black/10 px-3 py-1 rounded-lg'
+              >
+                Login
+              </Link>
+            )}
+            <button
+              className='font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600'
+              onClick={handleLogout}
             >
-              Login
-            </Link>
-          )}
-          <button
-            className='font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600'
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
+              Logout
+            </button>
+          </div>
+        )}
       </nav>
       <Dialog
         as='div'

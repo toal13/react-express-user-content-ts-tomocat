@@ -1,15 +1,11 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { MouseEvent, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/user-callers';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  const queryClient = useQueryClient();
-
-  queryClient.invalidateQueries({ queryKey: ['users'] });
 
   const handleEmailChange = (e) => {
     setUsername(e.target.value);
@@ -19,29 +15,15 @@ export default function LoginPage() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = async (
-    e: MouseEvent<HTMLButtonElement, MouseEvent>,
-    action: string
-  ) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const url = action === 'login' ? '/api/users/login' : '/api/users/register';
-    const method = 'POST';
 
-    const response = await fetch(url, {
-      method: method,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username: username, password: password }),
-    });
-    console.log(JSON.stringify({ username: username, password: password }));
-
-    const data = await response.json();
-    if (response.ok) {
-      console.log(data);
+    try {
+      const user = await loginUser({ username, password });
+      console.log('Login successful:', user);
       navigate('/');
-    } else {
-      console.error(data);
+    } catch (error: any) {
+      console.error('Login failed:', error);
     }
   };
 
@@ -55,7 +37,11 @@ export default function LoginPage() {
           Please sign in to continue.
         </p>
       </div>
-      <form method='POST' className='mx-auto mt-14 max-w-xl sm:w-96'>
+      <form
+        onSubmit={handleSubmit}
+        method='POST'
+        className='mx-auto mt-14 max-w-xl sm:w-96'
+      >
         <div className='grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2'>
           <div className='sm:col-span-2'>
             <label
@@ -105,21 +91,20 @@ export default function LoginPage() {
         <div className='mt-10'>
           <button
             type='submit'
-            onClick={(e) => handleSubmit(e, 'login')}
             className='block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
           >
             Sign in
           </button>
-          <div className=' text-gray-600 mt-5'>
+          {/* <div className=' text-gray-600 mt-5'>
             New to GoGothenburg?{' '}
             <button
               type='submit'
-              onClick={(e) => handleSubmit(e, 'register')}
+              onClick={(e) => handleSubmit(e)}
               className='text-indigo-500 font-semibold hover:underline ml-4'
             >
               Sign up now
             </button>
-          </div>
+          </div> */}
         </div>
       </form>
     </div>
