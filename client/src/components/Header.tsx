@@ -4,22 +4,31 @@ import {
   UserCircleIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User, getLoggedInUser, logoutUser } from '../api/user-callers';
 
 export default function Header() {
-  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { isLoading, data: user } = useQuery<User[]>({
     queryKey: ['users'],
     queryFn: getLoggedInUser,
   });
 
-  const handleLogout = async () => {
-    console.log('Logging out');
-    await logoutUser();
-    queryClient.invalidateQueries({ queryKey: ['users'] });
+  const logoutMutation = useMutation({
+    mutationFn: logoutUser,
+  });
+
+  const handleLogout = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await logoutMutation.mutateAsync(e);
+      console.log('Logout successful:');
+      // navigate('/');
+    } catch (error: any) {
+      console.error('Logout failed:', error);
+    }
   };
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -84,7 +93,7 @@ export default function Header() {
             )}
             <button
               className='font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600'
-              onClick={handleLogout}
+              onClick={(e) => handleLogout(e)}
             >
               Logout
             </button>

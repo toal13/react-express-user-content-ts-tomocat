@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../api/user-callers';
@@ -7,24 +8,31 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  const loginMutation = useMutation({
+    mutationFn: async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      return loginUser({ username, password });
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const user = await loginMutation.mutateAsync(e);
+      console.log('Login successful:', user);
+      navigate('/');
+    } catch (error: any) {
+      console.error('Login failed:', error);
+    }
+  };
+
   const handleEmailChange = (e) => {
     setUsername(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      const user = await loginUser({ username, password });
-      console.log('Login successful:', user);
-      navigate('/');
-    } catch (error: any) {
-      console.error('Login failed:', error);
-    }
   };
 
   return (
