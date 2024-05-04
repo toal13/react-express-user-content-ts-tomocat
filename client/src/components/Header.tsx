@@ -15,7 +15,6 @@ export default function Header() {
     queryKey: ['users'],
     queryFn: getLoggedInUser,
   });
-
   const logoutMutation = useMutation({
     mutationFn: logoutUser,
   });

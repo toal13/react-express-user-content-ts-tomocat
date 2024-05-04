@@ -1,17 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../api/user-callers';
+import { useNavigate } from 'react-router-dom';
+import { loginUser, registerUser } from '../api/user-callers';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const loginMutation = useMutation({
+  const registerUserMutation = useMutation({
     mutationFn: async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      return loginUser({ username, password });
+      return registerUser({ username, password });
     },
   });
 
@@ -19,11 +19,11 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const user = await loginMutation.mutateAsync(e);
-      console.log('Login successful:', user);
-      navigate('/');
+      const user = await registerUserMutation.mutateAsync(e);
+      console.log('Sign up successful:', user);
+      navigate('/login');
     } catch (error: any) {
-      console.error('Login failed:', error);
+      console.error('Sign up failed:', error);
     }
   };
 
@@ -42,7 +42,7 @@ export default function LoginPage() {
           Welcome
         </h2>
         <p className='mt-2 text-lg leading-8 text-gray-600'>
-          Please sign in to continue.
+          Please sign up to continue.
         </p>
       </div>
       <form
@@ -85,33 +85,14 @@ export default function LoginPage() {
               />
             </div>
           </div>
-
-          <div className='flex gap-x-4 sm:col-span-2'>
-            <div className='flex h-6 items-center'>Remember me</div>
-            <div className='text-sm leading-6 text-gray-600'>
-              <a href='#' className='font-semibold text-indigo-600'>
-                Forgot your password?
-              </a>
-              .
-            </div>
-          </div>
         </div>
         <div className='mt-10'>
           <button
             type='submit'
             className='block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
           >
-            Sign in
+            Sign Up
           </button>
-          <div className=' text-gray-600 mt-5'>
-            New to GoGothenburg?{' '}
-            <Link
-              to='/register'
-              className='text-indigo-500 font-semibold hover:underline ml-4'
-            >
-              Sign up now
-            </Link>
-          </div>
         </div>
       </form>
     </div>
