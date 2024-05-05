@@ -1,38 +1,41 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser, registerUser } from '../api/user-callers';
+import { registerUser } from '../api/user-callers';
+import { ValidationSchema } from '../data/validationUser';
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [values, setValues] = useState({ username: '', password: '' });
   const navigate = useNavigate();
 
   const registerUserMutation = useMutation({
     mutationFn: async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      return registerUser({ username, password });
+      return registerUser({
+        username: values.username,
+        password: values.password,
+      });
     },
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    try {
-      const user = await registerUserMutation.mutateAsync(e);
-      console.log('Sign up successful:', user);
-      navigate('/login');
-    } catch (error: any) {
-      console.error('Sign up failed:', error);
+    const result = ValidationSchema.safeParse(values);
+    if (result.success) {
+      try {
+        const user = await registerUserMutation.mutateAsync(e);
+        console.log('Sign up successful:', user);
+        navigate('/login');
+      } catch (error: unknown) {
+        console.error('Sign up failed:', error);
+      }
+    } else {
+      const newErrors: { [key: string]: string } = {};
+      for (const error of result.error.errors) {
+        newErrors[error.path[0]] = error.message;
+      }
+      console.log(newErrors);
     }
-  };
-
-  const handleEmailChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
   };
 
   return (
@@ -63,8 +66,9 @@ export default function LoginPage() {
                 type='email'
                 name='username'
                 id='email'
-                value={username}
-                onChange={handleEmailChange}
+                onChange={(e) =>
+                  setValues({ ...values, username: e.target.value })
+                }
                 autoComplete='email'
                 className='block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 outline-none '
               />
@@ -78,8 +82,10 @@ export default function LoginPage() {
               <input
                 name='password'
                 id='password'
-                value={password}
-                onChange={handlePasswordChange}
+                type='password'
+                onChange={(e) =>
+                  setValues({ ...values, password: e.target.value })
+                }
                 autoComplete='current-password'
                 className='block w-full rounded-md border-0 p-2 pl-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6 outline-none'
               />

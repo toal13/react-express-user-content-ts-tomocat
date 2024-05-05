@@ -1,33 +1,37 @@
 import { Dialog } from '@headlessui/react';
 import {
+  ArrowRightIcon,
   Bars3Icon,
   UserCircleIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, getLoggedInUser, logoutUser } from '../api/user-callers';
 
 export default function Header() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   const { isLoading, data: user } = useQuery<User[]>({
-    queryKey: ['users'],
+    queryKey: ['user'],
     queryFn: getLoggedInUser,
   });
+  console.log('User logged in:', user);
+
   const logoutMutation = useMutation({
     mutationFn: logoutUser,
+    onSuccess: () => {
+      queryClient.setQueryData(['user'], undefined);
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      console.log('Logout successful');
+      navigate('/login');
+    },
   });
 
-  const handleLogout = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      await logoutMutation.mutateAsync(e);
-      console.log('Logout successful:');
-      // navigate('/');
-    } catch (error: any) {
-      console.error('Logout failed:', error);
-    }
+  const handleLogout = async () => {
+    logoutMutation.mutate();
   };
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -81,21 +85,24 @@ export default function Header() {
         ) : (
           <div className='hidden lg:flex lg:flex-1 lg:justify-end gap-4 '>
             {user ? (
-              <UserCircleIcon className=' size-8 hover:text-indigo-600' />
+              <>
+                <UserCircleIcon className='w-8 h-8 hover:text-indigo-600' />
+                <button
+                  className='font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600'
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </>
             ) : (
               <Link
                 to={'/login'}
-                className=' font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600 border border-black/10 px-3 py-1 rounded-lg'
+                className=' flex justify-between items-center gap-4  font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600 border border-black/10 px-3 py-1 rounded-lg'
               >
                 Login
+                <ArrowRightIcon className=' size-5 hover:translate-x-1 transition-all' />
               </Link>
             )}
-            <button
-              className='font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600'
-              onClick={(e) => handleLogout(e)}
-            >
-              Logout
-            </button>
           </div>
         )}
       </nav>

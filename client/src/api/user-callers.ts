@@ -4,9 +4,10 @@ export interface User {
 }
 
 export async function getLoggedInUser() {
-  const response = await fetch('/api/users/auth');
+  const response = await fetch('/api/users/auth', { credentials: 'include' });
   if (response.status === 401) return undefined;
-  return await response.json();
+  const data = await response.json();
+  return data.user;
 }
 
 export async function loginUser({ username, password }: User) {
@@ -16,6 +17,7 @@ export async function loginUser({ username, password }: User) {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({
         username: username,
         password: password,
@@ -60,7 +62,10 @@ export async function registerUser({ username, password }: User) {
 }
 
 export async function logoutUser() {
-  const response = await fetch('/api/users/logout', { method: 'POST' });
+  const response = await fetch('/api/users/logout', {
+    method: 'POST',
+    credentials: 'include',
+  });
   if (!response.ok) {
     console.error('An error occurred during logout');
   }

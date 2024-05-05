@@ -1,38 +1,53 @@
-import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../api/user-callers';
+import {
+  LoginErrors,
+  LoginValues,
+  ValidationSchema,
+} from '../data/validationUser';
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [values, setValues] = useState<LoginValues>({
+    username: '',
+    password: '',
+  });
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const [errors, setErrors] = useState<LoginErrors>({});
 
   const loginMutation = useMutation({
-    mutationFn: async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      return loginUser({ username, password });
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      queryClient.setQueryData(['user'], data);
+      navigate('/');
+    },
+    onError: (error) => {
+      console.error('Login failed:', error);
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      const user = await loginMutation.mutateAsync(e);
-      console.log('Login successful:', user);
-      navigate('/');
-    } catch (error: any) {
-      console.error('Login failed:', error);
+    const result = ValidationSchema.safeParse(values);
+    if (result.success) {
+      try {
+        const user = loginMutation.mutate(values);
+        console.log('Login successful:', user);
+        navigate('/');
+      } catch (error) {
+        console.error('Login failed:', error);
+      }
+    } else {
+      const newErrors: { [key: string]: string } = {};
+      for (const error of result.error.errors) {
+        newErrors[error.path[0]] = error.message;
+      }
+      setErrors(newErrors);
     }
-  };
-
-  const handleEmailChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
   };
 
   return (
@@ -63,11 +78,15 @@ export default function LoginPage() {
                 type='email'
                 name='username'
                 id='email'
-                value={username}
-                onChange={handleEmailChange}
+                onChange={(e) => {
+                  setValues({ ...values, username: e.target.value });
+                }}
                 autoComplete='email'
                 className='block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 outline-none '
               />
+              {errors.username && (
+                <p className='text-red-500 text-sm'>{errors.username}</p>
+              )}
             </div>
           </div>
           <div className='sm:col-span-2'>
@@ -78,11 +97,16 @@ export default function LoginPage() {
               <input
                 name='password'
                 id='password'
-                value={password}
-                onChange={handlePasswordChange}
+                type='password'
+                onChange={(e) =>
+                  setValues({ ...values, password: e.target.value })
+                }
                 autoComplete='current-password'
                 className='block w-full rounded-md border-0 p-2 pl-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6 outline-none'
               />
+              {errors.password && (
+                <p className='text-red-500 text-sm'>{errors.password}</p>
+              )}
             </div>
           </div>
 

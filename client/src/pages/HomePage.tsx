@@ -2,8 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getEvents } from '../api/events-callers';
-import { User } from '../api/user-callers';
+import { User, getLoggedInUser } from '../api/user-callers';
 import { squareData } from '../data/data';
 
 interface Square {
@@ -13,8 +12,8 @@ interface Square {
 
 export default function HomePage() {
   const { isLoading, data: user } = useQuery<User[]>({
-    queryKey: ['users'],
-    queryFn: getEvents,
+    queryKey: ['user'],
+    queryFn: getLoggedInUser,
   });
 
   return (

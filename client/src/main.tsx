@@ -9,7 +9,6 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import App from './App';
-import AuthProvider from './contexts/AuthContext';
 import EventPage from './pages/EventPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -32,9 +31,9 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      {/* <AuthProvider> */}
+      <RouterProvider router={router} />
+      {/* </AuthProvider> */}
     </QueryClientProvider>
   </React.StrictMode>
 );
