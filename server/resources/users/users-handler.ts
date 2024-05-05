@@ -2,15 +2,6 @@ import argon2 from 'argon2';
 import { Request, Response } from 'express';
 import { UserModel } from './users-model';
 
-export const getAllUsers1 = async (req: Request, res: Response) => {
-  try {
-    const users = await UserModel.find({});
-    res.status(200).json(users);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const users = await UserModel.find({});
@@ -109,35 +100,6 @@ export const logoutUser = (req: Request, res: Response) => {
   res.status(204).json({ message: 'You are now logged out!' });
 };
 
-export const updateUser1 = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { username, password, isAdmin } = req.body;
-
-  try {
-    const user = await UserModel.findById(id);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    if (username) user.username = username;
-    if (password) {
-      user.password = await argon2.hash(password);
-    }
-    if (isAdmin !== undefined) user.isAdmin = isAdmin;
-
-    await user.save();
-    res.status(200).json({
-      message: 'User updated',
-      user: { id: user._id, username: user.username, isAdmin: user.isAdmin },
-    });
-  } catch (error) {
-    console.error('Update Error:', error);
-    res
-      .status(500)
-      .json({ message: 'An error occurred during the update process' });
-  }
-};
-
 export const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { username, password, isAdmin } = req.body;
@@ -152,11 +114,14 @@ export const updateUser = async (req: Request, res: Response) => {
     if (password) {
       user.password = await argon2.hash(password);
     }
-    if (typeof isAdmin === 'boolean') user.isAdmin = isAdmin;
+    if (typeof isAdmin !== 'boolean') user.isAdmin = isAdmin;
 
     await user.save();
-    const { password: userPassword, ...userWithoutPassword } = user.toObject();
-    res.status(200).json(userWithoutPassword);
+    res.status(200).json({
+      _id: user._id,
+      username: user.username,
+      isAdmin: user.isAdmin,
+    });
   } catch (error) {
     console.error('Update Error:', error);
     res.status(400).json('An error occurred during the update process');
