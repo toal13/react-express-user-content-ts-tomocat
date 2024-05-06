@@ -10,9 +10,13 @@ import {
 } from "react-router-dom";
 import App from "./App";
 import CreateEvent from "./pages/CreateEvent";
-import EventPage from "./pages/EventPage";
-import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
+} from 'react-router-dom';
+import App from './App';
+import EventPage from './pages/EventPage';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,7 +25,8 @@ const router = createBrowserRouter(
       <Route path="login" Component={LoginPage} />
       <Route path="events" Component={EventPage} />
       <Route path="create" Component={CreateEvent} />
-      <Route path="*" element={<div>Page not found</div>} />
+      <Route path='register' Component={RegisterPage} />
+      <Route path='*' element={<div>Page not found</div>} />
     </Route>
   )
 );
@@ -31,7 +36,9 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
+      {/* <AuthProvider> */}
       <RouterProvider router={router} />
+      {/* </AuthProvider> */}
     </QueryClientProvider>
   </React.StrictMode>
 );

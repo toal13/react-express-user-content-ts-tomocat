@@ -1,9 +1,14 @@
+
 import { useQuery } from "@tanstack/react-query";
 import { CiHeart } from "react-icons/ci";
 import { MdOutlinePlace } from "react-icons/md";
 import { getEvents } from "../api/events-callers";
+import { MdOutlinePlace } from 'react-icons/md';
+import { SlCalender } from 'react-icons/sl';
+
 
 interface Event {
+  id: number;
   title: string;
   content: string;
   author: string;
@@ -15,7 +20,7 @@ interface Event {
 
 export default function EventPage() {
   const { isLoading, data: events } = useQuery<Event[]>({
-    queryKey: ["events"],
+    queryKey: ['events'],
     queryFn: getEvents,
   });
   const handleOpenMap = (place: string | number | boolean) => {
@@ -97,6 +102,7 @@ export default function EventPage() {
                 <div className="flex mt-6">
                   <CiHeart className="size-7" />
                 </div>
+
               </div>
             </div>
           ))}
