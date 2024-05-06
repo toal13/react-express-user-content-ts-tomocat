@@ -15,7 +15,7 @@ export async function createEvent(req: Request, res: Response) {
   try {
     const event = await EventModel.create({
       ...req.body,
-      author: req.session!.user._id,
+      author: "66310f8d8e297abd0a96be6a",//req.session!.user._id,
     });
 
     res.status(201).json(event);
