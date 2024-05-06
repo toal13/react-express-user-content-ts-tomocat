@@ -1,20 +1,20 @@
-export interface Event{
-  title: { type: String, required: true },
-  content: { type: String, required: true },
-  author: { type: SchemaTypes.ObjectId, ref: 'User', required: true },
-  date: { type: String, required: false },
-  place: { type: String, required: false },
-  category: { type: String, required: false },
-  image: { type: String, required: false },
+export interface Event {
+  title: string,
+  content: string,
+  author: string,
+  date: string,
+  place: string,
+  category: string,
+  image: string,
 }
 
-export async function createEvent(event) {
+export async function createEvent(event:Event) {
   const response = await fetch("/api/posts", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(eventData),
+    body: JSON.stringify(event),
   });
   return await response.json();
 }

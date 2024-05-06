@@ -3,7 +3,18 @@ import { useState } from "react";
 import { createEvent } from "../api/posts-caller";
 
 export default function CreateEvent() {
-  const mutation = useMutation(createEvent);
+  // const mutation = useMutation(createEvent);
+  // const { isLoading, isSuccess, error, mutate} = useMutation(createEvent);
+
+  const createEventMutation = useMutation({
+    mutationFn: (newEvent) => {
+      return createEvent(newEvent)
+    }
+  })
+
+  // const handleSave = (e) => {
+  //   createEventMutation.mutate;
+  // }
 
   const [title, setTitle] = useState("");
   const [place, setPlace] = useState("");
@@ -12,8 +23,10 @@ export default function CreateEvent() {
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleSave = (event) => {
-    event.preventDefault();
+
+
+  const handleSave = (e) => {
+    e.preventDefault();
     const formData = {
       title,
       place,
@@ -24,7 +37,7 @@ export default function CreateEvent() {
     };
 
     console.log("saved event:", formData);
-    mutation.mutate(formData);
+    createEventMutation.mutate();
   };
 
   return (
