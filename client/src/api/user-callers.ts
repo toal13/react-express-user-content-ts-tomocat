@@ -5,7 +5,7 @@ export interface User {
 
 export async function getLoggedInUser() {
   const response = await fetch('/api/users/auth', { credentials: 'include' });
-  if (response.status === 401) return undefined;
+  if (response.status === 401) return null;
   const data = await response.json();
   return data.user;
 }

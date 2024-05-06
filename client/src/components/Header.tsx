@@ -23,8 +23,8 @@ export default function Header() {
   const logoutMutation = useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
-      queryClient.setQueryData(['user'], undefined);
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.setQueryData(['user'], null); // Client-side-only
+      // queryClient.invalidateQueries({ queryKey: ['user'] }); // Server-Call
       console.log('Logout successful');
       navigate('/login');
     },
