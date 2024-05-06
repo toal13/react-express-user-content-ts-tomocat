@@ -20,6 +20,7 @@ eventsRouter.get('/', getAllEvents);
 eventsRouter.get('/:id', isEventPresent, getEvent);
 eventsRouter.post(
   '/',
+  isLoggedIn,
   validationEventMiddleware(CreateEventSchema),
   createEvent
 );
