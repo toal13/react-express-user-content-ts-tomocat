@@ -1,16 +1,38 @@
 import { Dialog } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useQuery } from '@tanstack/react-query';
+import {
+  ArrowRightIcon,
+  Bars3Icon,
+  UserCircleIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getLoggedInUser } from '../api/user-callers';
-import DropdownMenu from './DropdownMenu';
+import { Link, useNavigate } from 'react-router-dom';
+import { User, getLoggedInUser, logoutUser } from '../api/user-callers';
 
 export default function Header() {
-  const { isLoading, data: user } = useQuery({
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const { isLoading, data: user } = useQuery<User[]>({
     queryKey: ['user'],
     queryFn: getLoggedInUser,
   });
+  console.log('User logged in:', user);
+
+  const logoutMutation = useMutation({
+    mutationFn: logoutUser,
+    onSuccess: () => {
+      queryClient.setQueryData(['user'], undefined);
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      console.log('Logout successful');
+      navigate('/login');
+    },
+  });
+
+  const handleLogout = async () => {
+    logoutMutation.mutate();
+  };
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigation = [
@@ -19,8 +41,6 @@ export default function Header() {
     { name: 'Locations', to: '#' },
     { name: 'Contact', to: '#' },
   ];
-
-  // { user ? <i>{user.username}</i> : <button>Login</button>}
 
   return (
     <header className='absolute inset-x-0 top-0 z-10'>
@@ -60,15 +80,31 @@ export default function Header() {
             </Link>
           ))}
         </div>
-        <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
-          <DropdownMenu />
-          {/* <Link
-            to='/login'
-            className='font-semibold leading-6 text-gray-900 transition-all text-md hover:text-indigo-600'
-          >
-            Sign in <span aria-hidden='true'>&rarr;</span>
-          </Link> */}
-        </div>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className='hidden lg:flex lg:flex-1 lg:justify-end gap-4 '>
+            {user ? (
+              <>
+                <UserCircleIcon className='w-8 h-8 hover:text-indigo-600' />
+                <button
+                  className='font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600'
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link
+                to={'/login'}
+                className=' flex justify-between items-center gap-4  font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600 border border-black/10 px-3 py-1 rounded-lg'
+              >
+                Login
+                <ArrowRightIcon className=' size-5 hover:translate-x-1 transition-all' />
+              </Link>
+            )}
+          </div>
+        )}
       </nav>
       <Dialog
         as='div'
