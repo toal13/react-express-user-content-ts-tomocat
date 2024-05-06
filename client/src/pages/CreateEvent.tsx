@@ -1,6 +1,10 @@
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { createEvent } from "../api/posts-caller";
 
 export default function CreateEvent() {
+  const mutation = useMutation(createEvent);
+
   const [title, setTitle] = useState("");
   const [place, setPlace] = useState("");
   const [date, setDate] = useState("");
@@ -16,13 +20,18 @@ export default function CreateEvent() {
       date,
       time,
       image,
-      description
+      description,
     };
 
-    console.log('saved event:', formData);
+    console.log("saved event:", formData);
+    mutation.mutate(formData);
   };
 
   return (
+    // <div>
+    //    {isLoading ? (
+    //     <p>Loading...</p>
+    //   ) : (
     <section className="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 mt-20">
       <h1 className="text-xl font-bold text-white capitalize dark:text-white">
         Create event
@@ -30,9 +39,7 @@ export default function CreateEvent() {
       <form onSubmit={handleSave} method="POST">
         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
           <div>
-            <label className="text-white dark:text-gray-200" for="username">
-              Title
-            </label>
+            <label className="text-white dark:text-gray-200">Title</label>
             <input
               id="title"
               type="text"
@@ -43,11 +50,9 @@ export default function CreateEvent() {
           </div>
 
           <div>
-            <label className="text-white dark:text-gray-200" for="emailAddress">
-              Address
-            </label>
+            <label className="text-white dark:text-gray-200">Address</label>
             <input
-              id="address"
+              id="place"
               type="text"
               value={place}
               onChange={(e) => setPlace(e.target.value)}
@@ -55,12 +60,7 @@ export default function CreateEvent() {
             />
           </div>
           <div>
-            <label
-              className="text-white dark:text-gray-200"
-              for="passwordConfirmation"
-            >
-              Date
-            </label>
+            <label className="text-white dark:text-gray-200">Date</label>
             <input
               id="date"
               type="date"
@@ -70,12 +70,7 @@ export default function CreateEvent() {
             />
           </div>
           <div>
-            <label
-              className="text-white dark:text-gray-200"
-              for="passwordConfirmation"
-            >
-              Time
-            </label>
+            <label className="text-white dark:text-gray-200">Time</label>
             <input
               id="time"
               type="time"
@@ -85,9 +80,7 @@ export default function CreateEvent() {
             />
           </div>
           <div>
-            <label className="text-white dark:text-gray-200" for="password">
-              URL
-            </label>
+            <label className="text-white dark:text-gray-200">URL</label>
             <input
               id="image"
               type="text"
@@ -97,14 +90,9 @@ export default function CreateEvent() {
             />
           </div>
           <div>
-            <label
-              className="text-white dark:text-gray-200"
-              for="passwordConfirmation"
-            >
-              Description
-            </label>
+            <label className="text-white dark:text-gray-200">Description</label>
             <textarea
-              id="description"
+              id="content"
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -116,6 +104,7 @@ export default function CreateEvent() {
         <div className="flex justify-end mt-6">
           <button
             type="submit"
+            onClick={handleSave}
             className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600"
           >
             Save
@@ -123,5 +112,6 @@ export default function CreateEvent() {
         </div>
       </form>
     </section>
+    // </div>
   );
 }
