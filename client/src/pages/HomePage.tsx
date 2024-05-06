@@ -17,7 +17,7 @@ export default function HomePage() {
   });
 
   return (
-    <section className='w-full px-8 mt-28 sm:mt-10 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto'>
+    <section className='w-full px-8 mt-20 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto'>
       <div>
         <h3 className='text-3xl md:text-5xl  font-semibold'>
           Uncover the Pulse of Gothenburg
@@ -95,7 +95,7 @@ const ShuffleGrid = () => {
   };
 
   return (
-    <div className='grid grid-cols-4 grid-rows-4 h-[450px] gap-1'>
+    <div className='grid grid-cols-4 grid-rows-4 h-[450px] gap-1 '>
       {squares.map((sq) => sq)}
     </div>
   );

@@ -10,8 +10,9 @@ export default function App() {
       <main className='flex-grow flex items-center justify-center'>
         <Outlet />
       </main>
-
-      <Footer />
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 }
