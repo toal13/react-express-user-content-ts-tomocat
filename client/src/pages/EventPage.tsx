@@ -36,13 +36,8 @@ export default function EventPage() {
           {events?.map((event) => (
             <div className=' max-w-80 md:max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
               <a href='#'>
-                <img
-                  className='rounded-t-lg'
-                  // src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=1746&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  src={event.image}
-                  alt=''
-                />
-              </a>
+                <img className='rounded-t-lg' src={event.image} alt='event' />
+                </a>
               <div className='flex m-3'>
                 <div className='flex flex-col items-center mt-6 mr-3'>
                   <span className='text-xl font-bold mb-2 text-pink-400'>

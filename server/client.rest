@@ -39,20 +39,21 @@ Content-Type: application/json
 GET http://localhost:4000/api/posts
 
 ### GET ONE EVENT
-GET http://localhost:4000/api/posts/6630e1da6ccba1afa658bc14
+GET http://localhost:4000/api/posts/663870fd749549c746afc82d
 
 ### CREATE A EVENT
 POST http://localhost:4000/api/posts
 Content-Type: application/json
 
 {
-  "title": "Outdoor Festival - 3",
+  "title": "Outdoor Festival - 8",
   "content": "A outdoor festival with a lot of bands",
   "author": "662f6f449436eabb4ddaf590",
   "date": "30 April",
   "place": "Kungsbacka",
   "category": "outdoor event",
-   "image": "https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+  "imageId": "6637eec60191c9be635f85fd"
+  
 }
 
  
@@ -67,10 +68,27 @@ Content-Type: application/json
   "date": "30 April",
   "place": "Kungsbacka",
   "category": "outdoor event"
+ 
+
 }
 
 ### DELETE AN EVENT
-DELETE http://localhost:4000/api/posts/6630e1da6ccba1afa658bc14
+DELETE http://localhost:4000/api/posts/
+
+
+### GET ONE IMAGE
+GET http://localhost:4000/api/images/6638d795b8da87171637b2b1
+
+### UPlOAD AN IMAGE
+POST http://localhost:4000/api/images/
+Content-Type: multipart/form-data; boundary=FormRow
+
+--FormRow
+Content-Disposition: form-data; name="image"; filename="event2.jpg"
+Content-Type: image/jpeg
+
+< ./event2.jpg
+--FormRow--
 
 
 

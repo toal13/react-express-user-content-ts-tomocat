@@ -2,6 +2,7 @@ import cookieSession from 'cookie-session';
 import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import { eventsRouter } from '../resources/events/events-router';
+import imagesRouter from '../resources/images/images-router';
 import usersRouter from '../resources/users/users-router';
 
 export const app = express();
@@ -21,6 +22,7 @@ app.use(
 
 app.use('/api/users', usersRouter);
 app.use('/api/posts', eventsRouter);
+app.use('/api/images', imagesRouter);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
