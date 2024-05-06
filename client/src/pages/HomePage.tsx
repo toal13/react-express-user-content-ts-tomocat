@@ -34,7 +34,7 @@ export default function HomePage() {
             Explore Events
           </Link>
           <Link
-            to={user ? '/events' : '/login'}
+            to={user ? '/create' : '/login'}
             className=' bg-indigo-100/75 text-black font-medium py-2 px-4 rounded transition-all hover:bg-indigo-100/50 active:scale-95'
           >
             Create an Event <span aria-hidden='true'>&rarr;</span>

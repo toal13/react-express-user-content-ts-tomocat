@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../api/user-callers';
 import { ValidationSchema } from '../data/validationUser';
 
@@ -97,8 +97,17 @@ export default function LoginPage() {
             type='submit'
             className='block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
           >
-            Sign Up
+            Create Account
           </button>
+          <div className=' text-gray-600 mt-5'>
+            Already have an account?{' '}
+            <Link
+              to='/login'
+              className='text-indigo-500 font-semibold hover:underline ml-4'
+            >
+              Log in
+            </Link>
+          </div>
         </div>
       </form>
     </div>
