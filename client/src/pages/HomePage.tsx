@@ -35,7 +35,7 @@ export default function HomePage() {
           </Link>
           <Link
             to={user ? '/create' : '/login'}
-            className=' bg-indigo-100/75 text-black font-medium py-2 px-4 rounded transition-all hover:bg-indigo-100/50 active:scale-95'
+            className='  bg-fuchsia-100 text-black font-medium py-2 px-4 rounded transition-all hover:bg-indigo-100/50 active:scale-95'
           >
             Create an Event <span aria-hidden='true'>&rarr;</span>
           </Link>
