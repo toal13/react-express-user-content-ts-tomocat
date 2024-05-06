@@ -1,52 +1,40 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FormEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../api/user-callers';
-import {
-  LoginErrors,
-  LoginValues,
-  ValidationSchema,
-} from '../data/validationUser';
+import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../api/user-callers';
+import { ValidationSchema } from '../data/validationUser';
 
 export default function LoginPage() {
-  const [values, setValues] = useState<LoginValues>({
-    username: '',
-    password: '',
-  });
+  const [values, setValues] = useState({ username: '', password: '' });
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
-  const [errors, setErrors] = useState<LoginErrors>({});
-
-  const loginMutation = useMutation({
-    mutationFn: loginUser,
-    onSuccess: (data) => {
-      queryClient.setQueryData(['user'], data);
-      navigate('/');
-    },
-    onError: (error) => {
-      console.error('Login failed:', error);
+  const registerUserMutation = useMutation({
+    mutationFn: async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      return registerUser({
+        username: values.username,
+        password: values.password,
+      });
     },
   });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const result = ValidationSchema.safeParse(values);
     if (result.success) {
       try {
-        const user = loginMutation.mutate(values);
-        console.log('Login successful:', user);
-        navigate('/');
-      } catch (error) {
-        console.error('Login failed:', error);
+        const user = await registerUserMutation.mutateAsync(e);
+        console.log('Sign up successful:', user);
+        navigate('/login');
+      } catch (error: unknown) {
+        console.error('Sign up failed:', error);
       }
     } else {
       const newErrors: { [key: string]: string } = {};
       for (const error of result.error.errors) {
         newErrors[error.path[0]] = error.message;
       }
-      setErrors(newErrors);
+      console.log(newErrors);
     }
   };
 
@@ -57,7 +45,7 @@ export default function LoginPage() {
           Welcome
         </h2>
         <p className='mt-2 text-lg leading-8 text-gray-600'>
-          Please sign in to continue.
+          Please sign up to continue.
         </p>
       </div>
       <form
@@ -78,15 +66,12 @@ export default function LoginPage() {
                 type='email'
                 name='username'
                 id='email'
-                onChange={(e) => {
-                  setValues({ ...values, username: e.target.value });
-                }}
+                onChange={(e) =>
+                  setValues({ ...values, username: e.target.value })
+                }
                 autoComplete='email'
                 className='block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 outline-none '
               />
-              {errors.username && (
-                <p className='text-red-500 text-sm'>{errors.username}</p>
-              )}
             </div>
           </div>
           <div className='sm:col-span-2'>
@@ -104,19 +89,6 @@ export default function LoginPage() {
                 autoComplete='current-password'
                 className='block w-full rounded-md border-0 p-2 pl-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6 outline-none'
               />
-              {errors.password && (
-                <p className='text-red-500 text-sm'>{errors.password}</p>
-              )}
-            </div>
-          </div>
-
-          <div className='flex gap-x-4 sm:col-span-2'>
-            <div className='flex h-6 items-center'>Remember me</div>
-            <div className='text-sm leading-6 text-gray-600'>
-              <a href='#' className='font-semibold text-indigo-600'>
-                Forgot your password?
-              </a>
-              .
             </div>
           </div>
         </div>
@@ -125,17 +97,8 @@ export default function LoginPage() {
             type='submit'
             className='block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
           >
-            Sign in
+            Sign Up
           </button>
-          <div className=' text-gray-600 mt-5'>
-            New to GoGothenburg?{' '}
-            <Link
-              to='/register'
-              className='text-indigo-500 font-semibold hover:underline ml-4'
-            >
-              Sign up now
-            </Link>
-          </div>
         </div>
       </form>
     </div>
