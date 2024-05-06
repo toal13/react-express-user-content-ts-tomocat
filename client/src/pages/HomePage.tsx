@@ -19,7 +19,7 @@ export default function HomePage() {
 
   return (
     <div className=' flex flex-col'>
-      <section className='w-full px-8 mt-20 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto'>
+      <section className='w-full px-8 mt-28 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto'>
         <div>
           <h3 className='text-3xl md:text-5xl  font-semibold'>
             Uncover the Pulse of Gothenburg

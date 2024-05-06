@@ -6,15 +6,18 @@ import { Square } from '../pages/HomePage';
 export default function HomePageBottom() {
   return (
     <div className=' flex flex-col'>
-      <section className=' px-8 m-20 py-12  max-w-6xl mx-auto'>
-        <h3 className='text-3xl font-semibold text-center'>
-          Lorem ipsum dolor sit amet.
-        </h3>
-        <p className='text-base text-center md:text-lg text-slate-700 my-4 md:my-6 max-w-lg'>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. A porro
-          tenetur aliquam dolore enim? Alias commodi eveniet delectus aspernatur
-          dolore atque, temporibus eaque accusantium! Culpa.
-        </p>
+      <section className=' flex flex-col sm:flex-row justify-center items-center space-x-20 px-2 m-20 py-12 mx-auto bg-fuchsia-100 w-full'>
+        <div className=' text-6xl'>09 September</div>
+        <div>
+          <h3 className='text-3xl font-semibold'>
+            Lorem ipsum dolor sit amet.
+          </h3>
+          <p className='text-base md:text-lg text-slate-700 my-4 md:my-6 max-w-md'>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. A porro
+            tenetur aliquam dolore enim? Alias commodi eveniet delectus
+            aspernatur dolore atque, temporibus eaque accusantium! Culpa.
+          </p>
+        </div>
       </section>
       <ShuffleGrid />
     </div>
