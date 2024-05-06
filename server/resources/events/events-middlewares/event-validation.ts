@@ -1,5 +1,5 @@
-import e, { Request, Response } from 'express';
-import z, { ZodSchema } from 'zod';
+import e, { Request, Response } from "express";
+import z, { ZodSchema } from "zod";
 
 export const ValidationEventSchema = z.object({
   id: z.string(),
@@ -28,6 +28,7 @@ export const validationEventMiddleware =
     if (result.success) {
       next();
     } else {
+      console.error(result.error.message);
       res.status(400).json(result.error.message);
     }
   };

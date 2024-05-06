@@ -1,16 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { createEvent } from "../api/posts-caller";
+import { Event, createEvent } from "../api/posts-caller";
 
 export default function CreateEvent() {
   // const mutation = useMutation(createEvent);
   // const { isLoading, isSuccess, error, mutate} = useMutation(createEvent);
 
   const createEventMutation = useMutation({
-    mutationFn: (newEvent) => {
-      return createEvent(newEvent)
-    }
-  })
+    mutationFn: (newEvent: Event) => {
+      return createEvent(newEvent);
+    },
+  });
 
   // const handleSave = (e) => {
   //   createEventMutation.mutate;
@@ -21,23 +21,20 @@ export default function CreateEvent() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [image, setImage] = useState("");
-  const [description, setDescription] = useState("");
-
-
+  const [content, setContent] = useState("");
 
   const handleSave = (e) => {
     e.preventDefault();
-    const formData = {
+    const formData: Event = {
       title,
       place,
       date,
-      time,
       image,
-      description,
-    };
+      content,
+    } as Event;
 
     console.log("saved event:", formData);
-    createEventMutation.mutate();
+    createEventMutation.mutate(formData);
   };
 
   return (
@@ -107,8 +104,8 @@ export default function CreateEvent() {
             <textarea
               id="content"
               type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
             ></textarea>
           </div>
