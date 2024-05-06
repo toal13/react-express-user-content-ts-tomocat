@@ -40,8 +40,8 @@ export const uploadImage = (req: Request, res: Response) => {
       });
 
       const transformer = sharp().resize({
-        width: 10,
-        height: 10,
+        width: 200,
+        height: 200,
         fit: 'cover',
       });
 

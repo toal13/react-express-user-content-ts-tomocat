@@ -75,15 +75,13 @@ Content-Type: application/json
 ### DELETE AN EVENT
 DELETE http://localhost:4000/api/posts/
 
-### GET IMAGES
-GET http://localhost:4000/api/images
 
 ### GET ONE IMAGE
-GET http://localhost:4000/api/images/
+GET http://localhost:4000/api/images/6638d795b8da87171637b2b1
 
 ### UPlOAD AN IMAGE
 POST http://localhost:4000/api/images/
-Content-Type: multipart/form-data; boundary=FromRow
+Content-Type: multipart/form-data; boundary=FormRow
 
 --FormRow
 Content-Disposition: form-data; name="image"; filename="event2.jpg"
