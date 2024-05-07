@@ -11,7 +11,7 @@ interface Event {
   date: string;
   place: string;
   category: string;
-  image: string;
+  imageUrl: string;
 }
 
 export default function EventPage() {
@@ -36,8 +36,12 @@ export default function EventPage() {
           {events?.map((event) => (
             <div className=' max-w-80 md:max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
               <a href='#'>
-                <img className='rounded-t-lg' src={event.image} alt='event' />
-                </a>
+                <img
+                  className='rounded-t-lg w-full h-56 object-cover'
+                  src={event.imageUrl}
+                  alt='event'
+                />
+              </a>
               <div className='flex m-3'>
                 <div className='flex flex-col items-center mt-6 mr-3'>
                   <span className='text-xl font-bold mb-2 text-pink-400'>

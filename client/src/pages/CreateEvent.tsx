@@ -31,6 +31,7 @@ export default function CreateEvent() {
       date,
       image,
       content,
+      category: '',
     } as Event;
 
     console.log('saved event:', formData);

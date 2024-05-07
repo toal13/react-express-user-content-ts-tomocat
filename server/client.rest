@@ -46,28 +46,29 @@ POST http://localhost:4000/api/posts
 Content-Type: application/json
 
 {
-  "title": "Outdoor Festival - 8",
-  "content": "A outdoor festival with a lot of bands",
+  "title": "Outdoor Festival - 2",
+  "content": "An outdoor festival with a lot of bands",
   "author": "662f6f449436eabb4ddaf590",
   "date": "30 April",
   "place": "Kungsbacka",
   "category": "outdoor event",
-  "imageId": "6637eec60191c9be635f85fd"
+  "imageId": "663aaddda5440d447cfb5387"
   
 }
 
  
 ### EDIT AN EVENT
-PUT http://localhost:4000/api/posts/6630e1da6ccba1afa658bc14
+PUT http://localhost:4000/api/posts/663aadfea5440d447cfb5389
 Content-Type: application/json
 
 {
-  "title": "Outdoor Festival - updated-1",
+  "title": "Outdoor Festival 5",
   "content": "A outdoor festival with a lot of bands",
   "author": "6630b609d1a067de48f90498",
   "date": "30 April",
   "place": "Kungsbacka",
-  "category": "outdoor event"
+  "category": "outdoor event",
+  "imageId": "663aaef9a5440d447cfb539c"
  
 
 }
@@ -84,10 +85,10 @@ POST http://localhost:4000/api/images/
 Content-Type: multipart/form-data; boundary=FormRow
 
 --FormRow
-Content-Disposition: form-data; name="image"; filename="event1.jpg"
+Content-Disposition: form-data; name="image"; filename="event.jpg"
 Content-Type: image/jpeg
 
-< ./event1.jpg
+< ./event4.jpg
 --FormRow--
 
 
