@@ -12,7 +12,7 @@ export interface Square {
 }
 
 export default function HomePage() {
-  const { isLoading, data: user } = useQuery<User[]>({
+  const { isLoading, data: user } = useQuery<User>({
     queryKey: ['user'],
     queryFn: getLoggedInUser,
   });

@@ -12,7 +12,7 @@ export async function getLoggedInUser() {
   const response = await fetch('/api/users/auth', { credentials: 'include' });
   if (response.status === 401) return null;
   const data = await response.json();
-  return data.user as User;
+  return data.user;
 }
 
 export async function loginUser({ username, password }: UserCredentials) {
