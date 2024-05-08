@@ -3,9 +3,10 @@ import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { User, getLoggedInUser } from '../api/user-callers';
+import HomePageBottom from '../components/HomePageBottom';
 import { squareData } from '../data/data';
 
-interface Square {
+export interface Square {
   id: number;
   src: string;
 }
@@ -17,32 +18,35 @@ export default function HomePage() {
   });
 
   return (
-    <section className='w-full px-8 mt-28 sm:mt-10 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto'>
-      <div>
-        <h3 className='text-3xl md:text-5xl  font-semibold'>
-          Uncover the Pulse of Gothenburg
-        </h3>
-        <p className='text-base md:text-lg text-slate-700 my-4 md:my-6 max-w-lg'>
-          Explore the best events across the city, from live concerts to local
-          festivals.
-        </p>
-        <div className='flex gap-2'>
-          <Link
-            to={'/events'}
-            className='bg-indigo-600 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-500 active:scale-95'
-          >
-            Explore Events
-          </Link>
-          <Link
-            to={user ? '/events' : '/login'}
-            className=' bg-indigo-100/75 text-black font-medium py-2 px-4 rounded transition-all hover:bg-indigo-100/50 active:scale-95'
-          >
-            Create an Event <span aria-hidden='true'>&rarr;</span>
-          </Link>
+    <div className=' flex flex-col'>
+      <section className='w-full px-8 mt-28 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto'>
+        <div>
+          <h3 className='text-3xl md:text-5xl  font-semibold'>
+            Uncover the Pulse of Gothenburg
+          </h3>
+          <p className='text-base md:text-lg text-slate-700 my-4 md:my-6 max-w-lg'>
+            Explore the best events across the city, from live concerts to local
+            festivals.
+          </p>
+          <div className='flex gap-2'>
+            <Link
+              to={'/events'}
+              className='bg-indigo-600 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-500 active:scale-95'
+            >
+              Explore Events
+            </Link>
+            <Link
+              to={user ? '/create' : '/login'}
+              className='  bg-fuchsia-100 text-black font-medium py-2 px-4 rounded transition-all hover:bg-indigo-100/50 active:scale-95'
+            >
+              Create an Event <span aria-hidden='true'>&rarr;</span>
+            </Link>
+          </div>
         </div>
-      </div>
-      <ShuffleGrid />
-    </section>
+        <ShuffleGrid />
+      </section>
+      <HomePageBottom />
+    </div>
   );
 }
 
@@ -95,7 +99,7 @@ const ShuffleGrid = () => {
   };
 
   return (
-    <div className='grid grid-cols-4 grid-rows-4 h-[450px] gap-1'>
+    <div className='grid grid-cols-4 grid-rows-4 h-[450px] gap-1 '>
       {squares.map((sq) => sq)}
     </div>
   );

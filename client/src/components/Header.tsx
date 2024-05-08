@@ -88,7 +88,7 @@ export default function Header() {
               <>
                 <UserCircleIcon className='w-8 h-8 hover:text-indigo-600' />
                 <button
-                  className='font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600'
+                  className='flex justify-between items-center gap-4  font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600 border border-black/10 px-3 py-1 rounded-lg'
                   onClick={handleLogout}
                 >
                   Logout

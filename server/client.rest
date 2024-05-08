@@ -77,17 +77,17 @@ DELETE http://localhost:4000/api/posts/
 
 
 ### GET ONE IMAGE
-GET http://localhost:4000/api/images/6638d795b8da87171637b2b1
+GET http://localhost:4000/api/images/6638e22151fc497bf049e822
 
 ### UPlOAD AN IMAGE
 POST http://localhost:4000/api/images/
 Content-Type: multipart/form-data; boundary=FormRow
 
 --FormRow
-Content-Disposition: form-data; name="image"; filename="event2.jpg"
+Content-Disposition: form-data; name="image"; filename="event1.jpg"
 Content-Type: image/jpeg
 
-< ./event2.jpg
+< ./event1.jpg
 --FormRow--
 
 

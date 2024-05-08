@@ -1,5 +1,5 @@
-import e, { Request, Response } from "express";
-import z, { ZodSchema } from "zod";
+import e, { Request, Response } from 'express';
+import z, { ZodSchema } from 'zod';
 
 export const ValidationEventSchema = z.object({
   id: z.string(),
@@ -9,7 +9,7 @@ export const ValidationEventSchema = z.object({
   date: z.string().optional(),
   place: z.string().optional(),
   category: z.string().optional(),
-  image: z.string().optional(),
+  imageId: z.string().optional(),
 });
 
 export const CreateEventSchema = ValidationEventSchema.extend({
@@ -20,6 +20,7 @@ export const UpdateEventSchema = ValidationEventSchema.omit({ id: true });
 
 export type Event = z.infer<typeof ValidationEventSchema>;
 export type CreateEvent = z.infer<typeof CreateEventSchema>;
+export type UpdateEvent = z.infer<typeof UpdateEventSchema>;
 
 export const validationEventMiddleware =
   (schema: ZodSchema) =>

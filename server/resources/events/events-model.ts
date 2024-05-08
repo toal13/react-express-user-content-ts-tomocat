@@ -8,7 +8,7 @@ const EventSchema = new mongoose.Schema(
     date: { type: String, required: false },
     place: { type: String, required: false },
     category: { type: String, required: false },
-    // imageId: { type: SchemaTypes.ObjectId, required: true },
+    imageId: { type: SchemaTypes.ObjectId, ref: 'Image', required: false },
   },
   {
     toJSON: {
