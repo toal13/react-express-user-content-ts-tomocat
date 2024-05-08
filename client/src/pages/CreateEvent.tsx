@@ -21,7 +21,9 @@ const uploadImage = async (imageFile: File) => {
 export default function CreateEvent() {
   const createEventMutation = useMutation({
     mutationFn: createEvent,
-    onSuccess: () => {},
+    onSuccess: () => {
+      // navigate to..
+    },
   });
 
   const [title, setTitle] = useState('');

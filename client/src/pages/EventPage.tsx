@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { CiHeart } from 'react-icons/ci';
-import { MdOutlinePlace } from 'react-icons/md';
+import { MdEditSquare, MdOutlinePlace } from 'react-icons/md';
 import { getEvents } from '../api/events-callers';
 import { getLoggedInUser } from '../api/user-callers';
 
@@ -80,7 +80,7 @@ export default function EventPage() {
                     {event.content}
                   </p>
                   {user.data?._id === event.author ||
-                    (user.data?.isAdmin && <p>EDIT</p>)}
+                    (user.data?.isAdmin && <MdEditSquare />)}
                   <a
                     href='#'
                     className='inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
