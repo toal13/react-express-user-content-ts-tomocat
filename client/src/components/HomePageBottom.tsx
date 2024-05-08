@@ -52,7 +52,7 @@ const ShuffleGrid = ({ events }: ShuffleGridProps) => {
   };
 
   return (
-    <div className='grid grid-cols-2 grid-rows-1 h-[450px] gap-1'>
+    <div className='grid grid-cols-1 sm:grid-cols-2 grid-rows-1  h-[450px] gap-1 mb-6'>
       {squares}
     </div>
   );
