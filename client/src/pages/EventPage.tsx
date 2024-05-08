@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { CiHeart } from 'react-icons/ci';
-import { MdOutlinePlace } from 'react-icons/md';
+import { MdEditSquare, MdOutlinePlace } from 'react-icons/md';
 import { getEvents } from '../api/events-callers';
+import { getLoggedInUser } from '../api/user-callers';
 
 interface Event {
   id: number;
@@ -11,7 +12,7 @@ interface Event {
   date: string;
   place: string;
   category: string;
-  image: string;
+  imageUrl: string;
 }
 
 export default function EventPage() {
@@ -19,6 +20,12 @@ export default function EventPage() {
     queryKey: ['events'],
     queryFn: getEvents,
   });
+
+  const user = useQuery({
+    queryKey: ['user'],
+    queryFn: getLoggedInUser,
+  });
+
   const handleOpenMap = (place: string | number | boolean) => {
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       place
@@ -36,8 +43,12 @@ export default function EventPage() {
           {events?.map((event) => (
             <div className=' max-w-80 md:max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
               <a href='#'>
-                <img className='rounded-t-lg' src={event.image} alt='event' />
-                </a>
+                <img
+                  className='rounded-t-lg w-full h-56 object-cover'
+                  src={event.imageUrl}
+                  alt='event'
+                />
+              </a>
               <div className='flex m-3'>
                 <div className='flex flex-col items-center mt-6 mr-3'>
                   <span className='text-xl font-bold mb-2 text-pink-400'>
@@ -68,6 +79,8 @@ export default function EventPage() {
                   <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>
                     {event.content}
                   </p>
+                  {user.data?._id === event.author ||
+                    (user.data?.isAdmin && <MdEditSquare />)}
                   <a
                     href='#'
                     className='inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'

@@ -61,6 +61,9 @@ export const updateEvent = async (req: Request, res: Response) => {
       return;
     }
 
+    Object.assign(eventToUpdate, req.body);
+    await eventToUpdate.save();
+
     res.status(200).json(eventToUpdate);
   } catch (error) {
     res.status(500).json(error);

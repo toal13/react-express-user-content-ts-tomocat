@@ -1,6 +1,11 @@
-export interface User {
+export interface UserCredentials {
   username: string;
   password: string;
+}
+export interface User {
+  _id: string;
+  username: string;
+  isAdmin: string;
 }
 
 export async function getLoggedInUser() {
@@ -10,7 +15,7 @@ export async function getLoggedInUser() {
   return data.user;
 }
 
-export async function loginUser({ username, password }: User) {
+export async function loginUser({ username, password }: UserCredentials) {
   try {
     const response = await fetch('/api/users/login', {
       method: 'POST',
@@ -35,7 +40,7 @@ export async function loginUser({ username, password }: User) {
   }
 }
 
-export async function registerUser({ username, password }: User) {
+export async function registerUser({ username, password }: UserCredentials) {
   try {
     const response = await fetch('/api/users/register', {
       method: 'POST',
