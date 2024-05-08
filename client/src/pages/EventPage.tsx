@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { CiHeart } from "react-icons/ci";
-import { MdEditSquare, MdOutlinePlace } from "react-icons/md";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { FiEdit3 } from "react-icons/fi";
+import { MdOutlinePlace } from "react-icons/md";
+import { deleteEvent } from "../api/event-delete-callers";
 import { getEvents } from "../api/events-callers";
 import { getLoggedInUser } from "../api/user-callers";
 
@@ -33,6 +36,19 @@ export default function EventPage() {
     window.open(mapUrl, "_blank");
   };
 
+  const handleDelete = async (eventId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete?");
+    if (confirmDelete) {
+      try {
+        await deleteEvent(eventId);
+        console.log("Event deleted successfully");
+        window.location.reload();
+      } catch (error) {
+        console.error("Failed to delete event:", error);
+      }
+    }
+  };
+
   return (
     <div>
       {/* <h2>Events</h2> */}
@@ -41,7 +57,10 @@ export default function EventPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-52">
           {events?.map((event) => (
-            <div className=" max-w-80 md:max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div
+              key={event.id}
+              className=" max-w-80 md:max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+            >
               <a href="#">
                 <img
                   className="rounded-t-lg w-full h-56 object-cover"
@@ -80,8 +99,6 @@ export default function EventPage() {
                     {event.content.slice(0, 40)}
                     {event.content.length > 40 && "..."}
                   </p>
-                  {user.data?._id === event.author ||
-                    (user.data?.isAdmin && <MdEditSquare />)}
                   <a
                     href="#"
                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -103,6 +120,19 @@ export default function EventPage() {
                       />
                     </svg>
                   </a>
+                  <div>
+                    {user.data?._id === event.author ||
+                      (user.data?.isAdmin && (
+                        <div>
+                          <button>
+                            <FiEdit3 />
+                          </button>
+                          <button onClick={() => handleDelete(event.id)}>
+                            <FaRegTrashCan />
+                          </button>
+                        </div>
+                      ))}
+                  </div>
                 </div>
                 <div className="flex mt-6">
                   <CiHeart className="size-7" />
