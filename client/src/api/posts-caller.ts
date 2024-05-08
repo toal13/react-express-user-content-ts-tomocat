@@ -4,7 +4,7 @@ export interface Event {
   author?: string;
   date: string;
   place: string;
-  category: string;
+  category?: string;
   imageId?: string;
   imageUrl?: string;
 }

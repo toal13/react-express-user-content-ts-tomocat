@@ -46,13 +46,13 @@ POST http://localhost:4000/api/posts
 Content-Type: application/json
 
 {
-  "title": "Outdoor Festival - 2",
+  "title": "Outdoor Festival - 5",
   "content": "An outdoor festival with a lot of bands",
   "author": "662f6f449436eabb4ddaf590",
   "date": "30 April",
   "place": "Kungsbacka",
   "category": "outdoor event",
-  "imageId": "663aaddda5440d447cfb5387"
+  "imageId": "663b3d87a5440d447cfb53c7"
   
 }
 
@@ -88,7 +88,7 @@ Content-Type: multipart/form-data; boundary=FormRow
 Content-Disposition: form-data; name="image"; filename="event.jpg"
 Content-Type: image/jpeg
 
-< ./event4.jpg
+< ./event5.jpg
 --FormRow--
 
 

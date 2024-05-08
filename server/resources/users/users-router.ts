@@ -13,6 +13,7 @@ import { isAdmin } from './users-middlewares/isAdmin-middleware';
 import { isLoggedIn } from './users-middlewares/isLoggedIn-middleware';
 import {
   CreateSchema,
+  UserSchema,
   validationMiddleware,
 } from './users-middlewares/user-validation';
 
@@ -23,12 +24,7 @@ usersRouter.get('/auth', isLoggedIn, getUserSelf);
 usersRouter.post('/register', validationMiddleware(CreateSchema), registerUser);
 usersRouter.post('/login', loginUser);
 usersRouter.post('/logout', logoutUser);
-usersRouter.put(
-  '/:id',
-  isAdmin,
-  validationMiddleware(CreateSchema),
-  updateUser
-);
+usersRouter.put('/:id', isAdmin, validationMiddleware(UserSchema), updateUser);
 usersRouter.delete('/:id', isAdmin, deleteUser);
 
 export default usersRouter;

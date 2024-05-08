@@ -4,11 +4,13 @@ import z, { ZodSchema } from 'zod';
 export const UserSchema = z.object({
   id: z.string().optional(),
   username: z.string().email(),
-  password: z.string().min(6),
   isAdmin: z.boolean().optional(),
 });
 
-export const CreateSchema = UserSchema.omit({ id: true });
+export const CreateSchema = z.object({
+  username: z.string().email(),
+  password: z.string().min(6),
+});
 export type User = z.infer<typeof UserSchema>;
 export type CreateUser = z.infer<typeof CreateSchema>;
 
@@ -18,6 +20,8 @@ export const validationMiddleware =
     if (result.success) {
       next();
     } else {
+      // if (process.env.NODE_ENV === "test")
+      console.log(result.error.message);
       res.status(400).json(result.error.message);
     }
   };

@@ -2,40 +2,64 @@ import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Event, createEvent } from '../api/posts-caller';
 
-export default function CreateEvent() {
-  // const mutation = useMutation(createEvent);
-  // const { isLoading, isSuccess, error, mutate} = useMutation(createEvent);
+const uploadImage = async (imageFile: File) => {
+  const formData = new FormData();
+  formData.append('images', imageFile);
 
-  const createEventMutation = useMutation({
-    mutationFn: (newEvent: Event) => {
-      return createEvent(newEvent);
-    },
+  const response = await fetch('/api/images', {
+    method: 'POST',
+    body: formData,
   });
 
-  // const handleSave = (e) => {
-  //   createEventMutation.mutate;
-  // }
+  if (!response.ok) {
+    console.log('Cannot upload image.');
+  }
+
+  return await response.json();
+};
+
+export default function CreateEvent() {
+  const createEventMutation = useMutation({
+    mutationFn: createEvent,
+    onSuccess: () => {},
+  });
 
   const [title, setTitle] = useState('');
   const [place, setPlace] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState<File | null>(null);
   const [content, setContent] = useState('');
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    const formData: Event = {
+
+    let imageId = '';
+    if (image) {
+      try {
+        imageId = await uploadImage(image);
+      } catch (error) {
+        console.error('Image upload error:', error);
+        return;
+      }
+    }
+
+    const event: Event = {
       title,
       place,
       date,
-      image,
       content,
-      category: '',
-    } as Event;
+      imageId,
+    };
 
-    console.log('saved event:', formData);
-    createEventMutation.mutate(formData);
+    console.log('saved event:', event);
+    createEventMutation.mutate(event);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImage(e.target.files[0]);
+    }
   };
 
   return (
@@ -94,9 +118,8 @@ export default function CreateEvent() {
             <label className='text-white dark:text-gray-200'>URL</label>
             <input
               id='image'
-              type='text'
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
+              type='file'
+              onChange={handleFileChange}
               className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring'
             />
           </div>
@@ -115,7 +138,6 @@ export default function CreateEvent() {
         <div className='flex justify-end mt-6'>
           <button
             type='submit'
-            onClick={handleSave}
             className='px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600'
           >
             Save

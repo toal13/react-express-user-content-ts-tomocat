@@ -14,7 +14,7 @@ export default function Header() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { isLoading, data: user } = useQuery<User[]>({
+  const { isLoading, data: user } = useQuery<User>({
     queryKey: ['user'],
     queryFn: getLoggedInUser,
   });
