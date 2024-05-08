@@ -2,18 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { CiHeart } from 'react-icons/ci';
 import { MdEditSquare, MdOutlinePlace } from 'react-icons/md';
 import { getEvents } from '../api/events-callers';
+import { Event } from '../api/posts-caller';
 import { getLoggedInUser } from '../api/user-callers';
-
-interface Event {
-  id: number;
-  title: string;
-  content: string;
-  author: string;
-  date: string;
-  place: string;
-  category: string;
-  imageUrl: string;
-}
 
 export default function EventPage() {
   const { isLoading, data: events } = useQuery<Event[]>({

@@ -1,9 +1,15 @@
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { squareData } from '../data/data';
-import { Square } from '../pages/HomePage';
+import { getEvents } from '../api/events-callers';
+import { Event } from '../api/posts-caller';
 
 export default function HomePageBottom() {
+  const { data: events } = useQuery<Event[]>({
+    queryKey: ['events'],
+    queryFn: getEvents,
+  });
+
   return (
     <div className=' flex flex-col'>
       <section className=' flex flex-col sm:flex-row justify-center items-center space-x-20 px-2 m-20 py-12 mx-auto bg-fuchsia-100 w-full'>
@@ -19,12 +25,40 @@ export default function HomePageBottom() {
           </p>
         </div>
       </section>
-      <ShuffleGrid />
+      {/* <ShuffleGrid /> */}
+      {events && <ShuffleGrid events={events} />}
     </div>
   );
 }
 
-const shuffle = (array: Square[]) => {
+export interface ShuffleGridProps {
+  events: Event[];
+}
+
+const ShuffleGrid = ({ events }: ShuffleGridProps) => {
+  const timeoutRef = useRef<number | null>(null);
+  const [squares, setSquares] = useState(generateSquares(events));
+
+  useEffect(() => {
+    shuffleSquares();
+
+    return () => clearTimeout(timeoutRef.current!);
+  }, [events]);
+
+  const shuffleSquares = () => {
+    setSquares(generateSquares(events));
+
+    timeoutRef.current = window.setTimeout(shuffleSquares, 3000);
+  };
+
+  return (
+    <div className='grid grid-cols-2 grid-rows-1 h-[450px] gap-1'>
+      {squares}
+    </div>
+  );
+};
+
+const shuffle = (array: Event[]) => {
   let currentIndex = array.length,
     randomIndex;
 
@@ -41,40 +75,17 @@ const shuffle = (array: Square[]) => {
   return array;
 };
 
-const generateSquares = () => {
-  return shuffle(squareData).map((sq) => (
+const generateSquares = (events: Event[]) => {
+  return shuffle(events).map((events) => (
     <motion.div
-      key={sq.id}
+      key={`${events.id}`}
       layout
       transition={{ duration: 1.5, type: 'spring' }}
       className='w-full h-full'
       style={{
-        backgroundImage: `url(${sq.src})`,
+        backgroundImage: `url(${events.imageUrl})`,
         backgroundSize: 'cover',
       }}
     ></motion.div>
   ));
-};
-
-const ShuffleGrid = () => {
-  const timeoutRef = useRef<number | null>(null);
-  const [squares, setSquares] = useState(generateSquares());
-
-  useEffect(() => {
-    shuffleSquares();
-
-    return () => clearTimeout(timeoutRef.current!);
-  }, []);
-
-  const shuffleSquares = () => {
-    setSquares(generateSquares());
-
-    timeoutRef.current = setTimeout(shuffleSquares, 3000);
-  };
-
-  return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 grid-rows-1 h-[450px] gap-1 mb-6'>
-      {squares.map((sq) => sq)}
-    </div>
-  );
 };
