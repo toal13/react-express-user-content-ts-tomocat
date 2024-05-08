@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon, UserCircleIcon } from '@heroicons/react/20/solid';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { useQuery } from '@tanstack/react-query';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
@@ -10,8 +10,8 @@ function classNames(...classes: string[]) {
 }
 
 export default function DropdownMenu() {
-  const { isLoading, data: user } = useQuery<User[]>({
-    queryKey: ['users'],
+  const { isLoading, data: user } = useQuery<User>({
+    queryKey: ['user'],
     queryFn: getLoggedInUser,
   });
 
@@ -20,12 +20,8 @@ export default function DropdownMenu() {
   return (
     <Menu as='div' className='relative inline-block text-left'>
       <div>
-        <Menu.Button className='inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white/20 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'>
-          Sign in
-          <ChevronDownIcon
-            className='-mr-1 h-5 w-5 text-gray-400'
-            aria-hidden='true'
-          />
+        <Menu.Button className=''>
+          <UserCircleIcon className='w-10 h-10 hover:text-indigo-600' />
         </Menu.Button>
       </div>
 
@@ -53,20 +49,17 @@ export default function DropdownMenu() {
                 </a>
               )}
             </Menu.Item>
-            {user ? (
-              <UserCircleIcon className='size-8' />
-            ) : (
-              // <button>Login</button>
+            {user && user?.isAdmin && (
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to='/login'
+                    to='/admin'
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block px-4 py-2 text-sm'
                     )}
                   >
-                    Login
+                    Admin Dashboard
                   </Link>
                 )}
               </Menu.Item>

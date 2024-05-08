@@ -2,13 +2,13 @@ import { Dialog } from '@headlessui/react';
 import {
   ArrowRightIcon,
   Bars3Icon,
-  UserCircleIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, getLoggedInUser, logoutUser } from '../api/user-callers';
+import DropdownMenu from './DropdownMenu';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -86,9 +86,9 @@ export default function Header() {
           <div className='hidden lg:flex lg:flex-1 lg:justify-end gap-4 '>
             {user ? (
               <>
-                <UserCircleIcon className='w-8 h-8 hover:text-indigo-600' />
+                <DropdownMenu />
                 <button
-                  className='flex justify-between items-center gap-4  font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600 border border-black/10 px-3 py-1 rounded-lg'
+                  className='flex justify-between items-center gap-4  font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600 border border-black/10 px-4 py-1 rounded-lg'
                   onClick={handleLogout}
                 >
                   Logout

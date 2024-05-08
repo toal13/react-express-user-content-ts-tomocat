@@ -8,7 +8,7 @@ export default function AdminPage() {
   });
 
   return (
-    <div className='overflow-x-auto rounded-lg w-auto md:w-[1200px] shadow-sm m-5 mt-28 '>
+    <div className='overflow-x-auto  rounded-lg w-auto md:w-[1200px] shadow-sm  mt-36 mb-10 '>
       <table className='border-collapse bg-white text-left text-sm text-gray-500 w-full'>
         <thead className='bg-indigo-50'>
           <tr>
