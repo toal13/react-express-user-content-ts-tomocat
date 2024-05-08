@@ -114,7 +114,7 @@ export const updateUser = async (req: Request, res: Response) => {
     if (password) {
       user.password = await argon2.hash(password);
     }
-    if (typeof isAdmin !== 'boolean') user.isAdmin = isAdmin;
+    if (typeof isAdmin === 'boolean') user.isAdmin = isAdmin;
 
     await user.save();
     res.status(200).json({
