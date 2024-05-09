@@ -1,12 +1,26 @@
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { useQuery } from '@tanstack/react-query';
-import { User, getAllUsers } from '../api/user-callers';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { User, deleteUser, getAllUsers } from '../api/user-callers';
 
 export default function AdminPage() {
+  const queryClient = useQueryClient();
+
   const { isLoading, data: users } = useQuery<User[]>({
     queryKey: ['users'],
     queryFn: getAllUsers,
   });
+
+  const deleteUserMutation = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      console.log('User deleted successfully');
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
+
+  const handleDelete = async (userId: string) => {
+    deleteUserMutation.mutate(userId);
+  };
 
   return (
     <div className='overflow-x-auto  rounded-lg w-auto md:w-[1200px] shadow-sm  mt-36 mb-10 '>
@@ -67,8 +81,14 @@ export default function AdminPage() {
                 <td className='px-6 py-4'>{user.username}</td>
                 <td className='px-6 py-4'>
                   <div className='flex justify-start gap-10'>
-                    <TrashIcon className=' size-6' />
-                    <PencilIcon className='size-6' />
+                    <TrashIcon
+                      className=' size-6 hover:cursor-pointer'
+                      onClick={() => handleDelete(user._id)}
+                    />
+                    <PencilIcon
+                      className='size-6 hover:cursor-pointer'
+                      onClick={() => console.log('Edit user')}
+                    />
                   </div>
                 </td>
               </tr>

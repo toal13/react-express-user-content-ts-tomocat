@@ -80,3 +80,12 @@ export async function logoutUser() {
     console.error('An error occurred during logout');
   }
 }
+
+export async function deleteUser(userId: string) {
+  const response = await fetch(`/api/users/${userId}`, {
+    method: 'DELETE',
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to delete user: ${response.statusText}`);
+  }
+}
