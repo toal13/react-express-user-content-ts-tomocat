@@ -1,3 +1,4 @@
+
 import { Event } from './posts-caller';
 
 export async function fetchEvent(eventId: string) {
@@ -14,6 +15,7 @@ export async function fetchEvent(eventId: string) {
   return response.json();
 }
 
+
 export async function editEvent(eventId: string, eventData: Partial<Event>) {
   const response = await fetch(`/api/posts/${eventId}`, {
     method: 'PUT',
@@ -29,3 +31,4 @@ export async function editEvent(eventId: string, eventData: Partial<Event>) {
 
   return response.json();
 }
+
