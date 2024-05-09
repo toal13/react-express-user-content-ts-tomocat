@@ -1,16 +1,14 @@
-
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
-import { CiHeart } from "react-icons/ci";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { FiEdit3 } from "react-icons/fi";
 import { MdOutlinePlace } from "react-icons/md";
-import { deleteEvent } from "../api/event-delete-callers";
+import { useNavigate } from "react-router-dom";
+import { deleteEvent } from "../api/delete-callers";
 import { getEvents } from "../api/events-callers";
+import { Event } from "../api/posts-caller";
 import { getLoggedInUser } from "../api/user-callers";
-import { Event } from '../api/posts-caller';
-
 
 export default function EventPage() {
+  const navigate = useNavigate();
   const { isLoading, data: events } = useQuery<Event[]>({
     queryKey: ["events"],
     queryFn: getEvents,
@@ -26,6 +24,10 @@ export default function EventPage() {
       place
     )}`;
     window.open(mapUrl, "_blank");
+  };
+
+  const handleEdit = (eventId) => {
+    navigate("/edit");
   };
 
   const handleDelete = async (eventId) => {
@@ -70,7 +72,7 @@ export default function EventPage() {
                   </span>
                 </div>
 
-                <div className="pt-5 pb-5 pl-5">
+                <div className="p-5">
                   <a href="#">
                     <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                       {event.title}
@@ -82,7 +84,7 @@ export default function EventPage() {
                         className="flex items-center text-gray-500 cursor-pointer hover:underline"
                         onClick={() => handleOpenMap(event.place)}
                       >
-                        <MdOutlinePlace className="mr-1" />
+                        <MdOutlinePlace className="mr-1 size-7" />
                         <span>{event.place}</span>
                       </div>
                     </div>
@@ -91,43 +93,44 @@ export default function EventPage() {
                     {event.content.slice(0, 40)}
                     {event.content.length > 40 && "..."}
                   </p>
-                  <a
-                    href="#"
-                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Read more
-                    <svg
-                      className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 14 10"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M1 5h12m0 0L9 1m4 4L9 9"
-                      />
-                    </svg>
-                  </a>
-                  <div>
-                    {user.data?._id === event.author ||
-                      (user.data?.isAdmin && (
-                        <div>
-                          <button>
-                            <FiEdit3 />
-                          </button>
-                          <button onClick={() => handleDelete(event.id)}>
-                            <FaRegTrashCan />
-                          </button>
-                        </div>
-                      ))}
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <a
+                        href="#"
+                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      >
+                        Read more
+                        <svg
+                          className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 14 10"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M1 5h12m0 0L9 1m4 4L9 9"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                    <div>
+                      {user.data?._id === event.author ||
+                        (user.data?.isAdmin && (
+                          <div className="flex gap-2">
+                            <button onClick={() => handleEdit(event.id)}>
+                              <PencilIcon className="size-5" />
+                            </button>
+                            <button onClick={() => handleDelete(event.id)}>
+                              <TrashIcon className="size-5" />
+                            </button>
+                          </div>
+                        ))}
+                    </div>
                   </div>
-                </div>
-                <div className="flex mt-6">
-                  <CiHeart className="size-7" />
                 </div>
               </div>
             </div>
