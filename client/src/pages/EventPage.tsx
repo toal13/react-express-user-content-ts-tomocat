@@ -6,8 +6,8 @@ import { MdOutlinePlace } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { deleteEvent } from '../api/delete-callers';
 import { getEvents } from '../api/events-callers';
-import { getLoggedInUser } from '../api/user-callers';
 import { Event } from '../api/posts-caller';
+import { getLoggedInUser } from '../api/user-callers';
 
 export default function EventPage() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export default function EventPage() {
   };
 
   const handleEdit = (eventId) => {
-    navigate('/edit');
+    navigate(`/edit/${eventId}`);
   };
 
   const handleDelete = async (eventId) => {

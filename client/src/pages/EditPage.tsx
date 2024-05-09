@@ -1,47 +1,66 @@
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { editEvent } from '../api/edit-caller';
+// components/EditPage.tsx
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { editEvent, fetchEvent } from '../api/edit-caller';
 
-export default function EditPage(eventId) {
-  // const { data, isLoading } = useQuery<Event>({
-  //   queryKey: ['event', eventId],
-  //   queryFn: editEvent,
-  // });
+interface Event {
+  title: string;
+  place: string;
+  date: string;
+  time: string;
+  content: string;
+}
+
+export default function EditPage() {
+  const { eventId } = useParams<{ eventId: string }>();
+  const queryClient = useQueryClient();
+
   const { data: event, isLoading } = useQuery<Event>({
     queryKey: ['event', eventId],
+    queryFn: () => fetchEvent(eventId!),
+    staleTime: 5 * 60 * 1000,
   });
 
   console.log('Event:', event);
 
+  // Form state
   const [title, setTitle] = useState('');
   const [place, setPlace] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [content, setContent] = useState('');
 
-  const handleEdit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const editedEventData = {
-      title,
-      place,
-      date,
-      time,
-      content,
-    };
-
-    try {
-      await editEvent(eventId, editedEventData);
-      console.log('Event edited successfully');
-    } catch (error) {
-      console.error('Failed to edit event:', error);
+  useEffect(() => {
+    if (event) {
+      setTitle(event.title || '');
+      setPlace(event.place || '');
+      setDate(event.date || '');
+      setTime(event.time || '');
+      setContent(event.content || '');
     }
+  }, [event]);
+
+  // Mutation for editing event
+  const mutation = useMutation({
+    mutationFn: (newEventData: Event) => editEvent(eventId, newEventData),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['event', eventId]);
+      console.log('Event edited successfully');
+    },
+    onError: (error) => {
+      console.error('Failed to edit event:', error);
+    },
+  });
+
+  const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const editedEventData = { title, place, date, time, content };
+
+    mutation.mutate(editedEventData);
   };
 
-  // イベントIDが取得されるまでローディングを表示
-  if (!eventId) {
-    return <div>Loading...</div>;
-  }
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <section className='max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 m-36'>
@@ -60,7 +79,6 @@ export default function EditPage(eventId) {
               className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring'
             />
           </div>
-
           <div>
             <label className='text-white dark:text-gray-200'>Address</label>
             <input
@@ -96,7 +114,6 @@ export default function EditPage(eventId) {
             <input
               id='image'
               type='file'
-              onChange={() => handleEdit}
               className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring'
             />
           </div>
