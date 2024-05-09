@@ -12,6 +12,7 @@ import App from './App';
 import AdminPage from './pages/AdminPage';
 import CreateEvent from './pages/CreateEvent';
 import EditPage from './pages/EditPage';
+import EventDetailsPage from './pages/EventDetailsPage';
 import EventPage from './pages/EventPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
       <Route path='/create' Component={CreateEvent} />
       <Route path='register' Component={RegisterPage} />
       <Route path='/edit/:eventId' Component={EditPage} />
+      <Route path='/events/:eventId' Component={EventDetailsPage} />
       <Route path='*' element={<div>Page not found</div>} />
       <Route path='admin' Component={AdminPage} />
       <Route path='*' element={<div>Page not found</div>} />

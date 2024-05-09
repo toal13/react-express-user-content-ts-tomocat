@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { editEvent, fetchEvent } from '../api/edit-caller';
 
-interface Event {
+export interface Event {
   title: string;
   place: string;
   date: string;
