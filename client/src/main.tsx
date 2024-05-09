@@ -9,6 +9,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import App from "./App";
+import AdminPage from "./pages/AdminPage";
 import CreateEvent from "./pages/CreateEvent";
 import EditPage from "./pages/EditPage";
 import EventPage from "./pages/EventPage";
@@ -25,6 +26,8 @@ const router = createBrowserRouter(
       <Route path="create" Component={CreateEvent} />
       <Route path="register" Component={RegisterPage} />
       <Route path="edit" Component={EditPage} />
+      <Route path="*" element={<div>Page not found</div>} />
+      <Route path="admin" Component={AdminPage} />
       <Route path="*" element={<div>Page not found</div>} />
     </Route>
   )

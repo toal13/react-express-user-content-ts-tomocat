@@ -1,28 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { uploadImage } from '../api/images-caller';
 import { Event, createEvent } from '../api/posts-caller';
 
-const uploadImage = async (imageFile: File) => {
-  const formData = new FormData();
-  formData.append('images', imageFile);
-
-  const response = await fetch('/api/images', {
-    method: 'POST',
-    body: formData,
-  });
-
-  if (!response.ok) {
-    console.log('Cannot upload image.');
-  }
-
-  return await response.json();
-};
-
 export default function CreateEvent() {
+  const navigate = useNavigate();
   const createEventMutation = useMutation({
     mutationFn: createEvent,
     onSuccess: () => {
-      // navigate to..
+      navigate('/events');
     },
   });
 
@@ -100,7 +87,7 @@ export default function CreateEvent() {
             <label className='text-white dark:text-gray-200'>Date</label>
             <input
               id='date'
-              type='date'
+              type='text'
               value={date}
               onChange={(e) => setDate(e.target.value)}
               className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring'
@@ -129,7 +116,6 @@ export default function CreateEvent() {
             <label className='text-white dark:text-gray-200'>Description</label>
             <textarea
               id='content'
-              type='text'
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring'

@@ -2,14 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getEvents } from '../api/events-callers';
+import { Event } from '../api/posts-caller';
 import { User, getLoggedInUser } from '../api/user-callers';
 import HomePageBottom from '../components/HomePageBottom';
-import { squareData } from '../data/data';
-
-export interface Square {
-  id: number;
-  src: string;
-}
 
 export default function HomePage() {
   const { isLoading, data: user } = useQuery<User>({
@@ -17,6 +13,12 @@ export default function HomePage() {
     queryFn: getLoggedInUser,
   });
 
+  const { data: events } = useQuery<Event[]>({
+    queryKey: ['events'],
+    queryFn: getEvents,
+  });
+
+  console.log('Fetched Events:', events);
   return (
     <div className=' flex flex-col'>
       <section className='w-full px-8 mt-28 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto'>
@@ -43,14 +45,41 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-        <ShuffleGrid />
+        {events && <ShuffleGrid events={events} />}
       </section>
       <HomePageBottom />
     </div>
   );
 }
 
-const shuffle = (array: Square[]) => {
+export interface ShuffleGridProps {
+  events: Event[];
+}
+
+const ShuffleGrid = ({ events }: ShuffleGridProps) => {
+  const timeoutRef = useRef<number | null>(null);
+  const [squares, setSquares] = useState(generateSquares(events));
+
+  useEffect(() => {
+    shuffleSquares();
+
+    return () => clearTimeout(timeoutRef.current!);
+  }, [events]);
+
+  const shuffleSquares = () => {
+    setSquares(generateSquares(events));
+
+    timeoutRef.current = window.setTimeout(shuffleSquares, 3000);
+  };
+
+  return (
+    <div className='grid grid-cols-4 grid-rows-4 h-[450px] gap-1'>
+      {squares}
+    </div>
+  );
+};
+
+const shuffle = (array: Event[]) => {
   let currentIndex = array.length,
     randomIndex;
 
@@ -67,40 +96,17 @@ const shuffle = (array: Square[]) => {
   return array;
 };
 
-const generateSquares = () => {
-  return shuffle(squareData).map((sq) => (
+const generateSquares = (events: Event[]) => {
+  return shuffle(events).map((events) => (
     <motion.div
-      key={sq.id}
+      key={`${events.id}`}
       layout
       transition={{ duration: 1.5, type: 'spring' }}
       className='w-full h-full'
       style={{
-        backgroundImage: `url(${sq.src})`,
+        backgroundImage: `url(${events.imageUrl})`,
         backgroundSize: 'cover',
       }}
     ></motion.div>
   ));
-};
-
-const ShuffleGrid = () => {
-  const timeoutRef = useRef<number | null>(null);
-  const [squares, setSquares] = useState(generateSquares());
-
-  useEffect(() => {
-    shuffleSquares();
-
-    return () => clearTimeout(timeoutRef.current!);
-  }, []);
-
-  const shuffleSquares = () => {
-    setSquares(generateSquares());
-
-    timeoutRef.current = setTimeout(shuffleSquares, 3000);
-  };
-
-  return (
-    <div className='grid grid-cols-4 grid-rows-4 h-[450px] gap-1 '>
-      {squares.map((sq) => sq)}
-    </div>
-  );
 };

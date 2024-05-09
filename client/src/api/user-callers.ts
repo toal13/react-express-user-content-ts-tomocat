@@ -15,6 +15,11 @@ export async function getLoggedInUser() {
   return data.user;
 }
 
+export async function getAllUsers() {
+  const response = await fetch('/api/users/');
+  return await response.json();
+}
+
 export async function loginUser({ username, password }: UserCredentials) {
   try {
     const response = await fetch('/api/users/login', {

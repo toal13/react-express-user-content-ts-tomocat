@@ -1,3 +1,4 @@
+
 import { useQuery } from "@tanstack/react-query";
 import { CiHeart } from "react-icons/ci";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -7,17 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { deleteEvent } from "../api/delete-callers";
 import { getEvents } from "../api/events-callers";
 import { getLoggedInUser } from "../api/user-callers";
+import { Event } from '../api/posts-caller';
 
-interface Event {
-  id: number;
-  title: string;
-  content: string;
-  author: string;
-  date: string;
-  place: string;
-  category: string;
-  imageUrl: string;
-}
 
 export default function EventPage() {
   const navigate = useNavigate();
