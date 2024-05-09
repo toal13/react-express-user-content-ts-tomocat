@@ -51,9 +51,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className='isolate bg-transparent px-6 py-2 sm:py-32 lg:px-8'>
+    <div className='isolate bg-transparent px-6 py-2 sm:py-32 lg:px-8 my-28 sm:my-0'>
       <div className='mx-auto max-w-2xl text-center'>
-        <h2 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
+        <h2 className='text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
           Welcome
         </h2>
         <p className='mt-2 text-lg leading-8 text-gray-600'>

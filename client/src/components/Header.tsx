@@ -4,35 +4,18 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { User, getLoggedInUser, logoutUser } from '../api/user-callers';
+import { Link } from 'react-router-dom';
+import { User, getLoggedInUser } from '../api/user-callers';
 import DropdownMenu from './DropdownMenu';
 
 export default function Header() {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
   const { isLoading, data: user } = useQuery<User>({
     queryKey: ['user'],
     queryFn: getLoggedInUser,
   });
   console.log('User logged in:', user);
-
-  const logoutMutation = useMutation({
-    mutationFn: logoutUser,
-    onSuccess: () => {
-      queryClient.setQueryData(['user'], null); // Client-side-only
-      // queryClient.invalidateQueries({ queryKey: ['user'] }); // Server-Call
-      console.log('Logout successful');
-      navigate('/login');
-    },
-  });
-
-  const handleLogout = async () => {
-    logoutMutation.mutate();
-  };
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigation = [
@@ -85,15 +68,7 @@ export default function Header() {
         ) : (
           <div className='hidden lg:flex lg:flex-1 lg:justify-end gap-4 '>
             {user ? (
-              <>
-                <DropdownMenu />
-                <button
-                  className='flex justify-between items-center gap-4  font-normal leading-6 text-gray-900 transition-all text-md hover:text-indigo-600 border border-black/10 px-4 py-1 rounded-lg'
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </>
+              <DropdownMenu />
             ) : (
               <Link
                 to={'/login'}
@@ -146,7 +121,7 @@ export default function Header() {
                   to='/login'
                   className='-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
                 >
-                  Sign in
+                  Login
                 </Link>
               </div>
             </div>
