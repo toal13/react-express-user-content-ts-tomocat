@@ -15,13 +15,16 @@ export default function HomePageBottom() {
       <section className=' flex flex-col sm:flex-row justify-center items-center space-x-20 px-2 m-20 py-12 mx-auto bg-fuchsia-100 w-full'>
         <div className=' text-6xl'>09 September</div>
         <div>
-          <h3 className='text-3xl font-semibold'>
-            Lorem ipsum dolor sit amet.
-          </h3>
+          <h3 className='text-3xl font-semibold'>Nordic Wellness Conference</h3>
+          <p className=' text-gray-500 mt-4'>
+            Radisson Blu Scandinavia Hotel, Gothenburg
+          </p>
           <p className='text-base md:text-lg text-slate-700 my-4 md:my-6 max-w-md'>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. A porro
-            tenetur aliquam dolore enim? Alias commodi eveniet delectus
-            aspernatur dolore atque, temporibus eaque accusantium! Culpa.
+            The Nordic Wellness Conference brings together health and wellness
+            experts to share their insights on holistic living. Learn from
+            industry leaders through keynote speeches, practical workshops, and
+            expert panels covering mental health, nutrition, and sustainable
+            fitness.
           </p>
         </div>
       </section>
