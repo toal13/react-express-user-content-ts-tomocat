@@ -14,17 +14,23 @@ interface Event {
 
 export default function EditPage() {
   const { eventId } = useParams<{ eventId: string }>();
+  console.log('Fetched Event ID:', eventId);
   const queryClient = useQueryClient();
 
   const { data: event, isLoading } = useQuery<Event>({
     queryKey: ['event', eventId],
-    queryFn: () => fetchEvent(eventId!),
+    queryFn: () => {
+      if (!eventId) {
+        console.error('Error: eventId is undefined');
+        throw new Error('Invalid event ID');
+      }
+      return fetchEvent(eventId);
+    },
     staleTime: 5 * 60 * 1000,
   });
 
   console.log('Event:', event);
 
-  // Form state
   const [title, setTitle] = useState('');
   const [place, setPlace] = useState('');
   const [date, setDate] = useState('');
@@ -36,14 +42,12 @@ export default function EditPage() {
       setTitle(event.title || '');
       setPlace(event.place || '');
       setDate(event.date || '');
-      setTime(event.time || '');
       setContent(event.content || '');
     }
   }, [event]);
 
-  // Mutation for editing event
   const mutation = useMutation({
-    mutationFn: (newEventData: Event) => editEvent(eventId, newEventData),
+    mutationFn: (newEventData: Event) => editEvent(eventId!, newEventData),
     onSuccess: () => {
       queryClient.invalidateQueries(['event', eventId]);
       console.log('Event edited successfully');

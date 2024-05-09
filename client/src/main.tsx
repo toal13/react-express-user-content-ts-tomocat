@@ -23,9 +23,9 @@ const router = createBrowserRouter(
       <Route index Component={HomePage} />
       <Route path='login' Component={LoginPage} />
       <Route path='events' Component={EventPage} />
-      <Route path='create' Component={CreateEvent} />
+      <Route path='/create' Component={CreateEvent} />
       <Route path='register' Component={RegisterPage} />
-      <Route path='edit/:eventId' Component={EditPage} />
+      <Route path='/edit/:eventId' Component={EditPage} />
       <Route path='*' element={<div>Page not found</div>} />
       <Route path='admin' Component={AdminPage} />
       <Route path='*' element={<div>Page not found</div>} />

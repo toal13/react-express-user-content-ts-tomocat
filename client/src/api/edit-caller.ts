@@ -1,5 +1,7 @@
+import { Event } from './posts-caller';
+
 export async function fetchEvent(eventId: string) {
-  const response = await fetch(`/api/events/${eventId}`, {
+  const response = await fetch(`/api/posts/${eventId}`, {
     credentials: 'include',
   });
 
@@ -12,8 +14,8 @@ export async function fetchEvent(eventId: string) {
   return response.json();
 }
 
-export async function editEvent(eventId: string, eventData: any) {
-  const response = await fetch(`/api/events/${eventId}`, {
+export async function editEvent(eventId: string, eventData: Event) {
+  const response = await fetch(`/api/posts/${eventId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
