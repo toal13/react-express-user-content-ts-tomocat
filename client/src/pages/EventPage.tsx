@@ -3,7 +3,8 @@ import { CiHeart } from "react-icons/ci";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
 import { MdOutlinePlace } from "react-icons/md";
-import { deleteEvent } from "../api/event-delete-callers";
+import { useNavigate } from "react-router-dom";
+import { deleteEvent } from "../api/delete-callers";
 import { getEvents } from "../api/events-callers";
 import { getLoggedInUser } from "../api/user-callers";
 
@@ -19,6 +20,7 @@ interface Event {
 }
 
 export default function EventPage() {
+  const navigate = useNavigate();
   const { isLoading, data: events } = useQuery<Event[]>({
     queryKey: ["events"],
     queryFn: getEvents,
@@ -34,6 +36,12 @@ export default function EventPage() {
       place
     )}`;
     window.open(mapUrl, "_blank");
+  };
+
+  const handleEdit = (eventId) => {
+    navigate("/edit");
+    // window.location.href = `/api/posts/${eventId}`;
+    // history.push(`/edit/${eventId}`);
   };
 
   const handleDelete = async (eventId) => {
@@ -124,7 +132,7 @@ export default function EventPage() {
                     {user.data?._id === event.author ||
                       (user.data?.isAdmin && (
                         <div>
-                          <button>
+                          <button onClick={() => handleEdit(event.id)}>
                             <FiEdit3 />
                           </button>
                           <button onClick={() => handleDelete(event.id)}>
