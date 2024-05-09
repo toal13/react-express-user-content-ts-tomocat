@@ -9,8 +9,9 @@ export default function EditPage(eventId) {
   // });
   const { data: event, isLoading } = useQuery<Event>({
     queryKey: ['event', eventId],
-    queryFn: () => fetch(`/api/posts/${eventId}`).then((res) => res.json()),
   });
+
+  console.log('Event:', event);
 
   const [title, setTitle] = useState('');
   const [place, setPlace] = useState('');

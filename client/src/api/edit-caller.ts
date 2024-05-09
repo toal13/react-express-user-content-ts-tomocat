@@ -1,18 +1,12 @@
 import { Event } from './posts-caller';
 
-export async function editEvent(eventId: string) {
+export async function editEvent(eventId: string, eventData: Event) {
   const response = await fetch(`/api/posts/${eventId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      title: 'New title',
-      place: 'New place',
-      date: 'New date',
-      time: 'New time',
-      content: 'New content',
-    }),
+    body: JSON.stringify(eventData),
   });
 
   if (response.ok) {
