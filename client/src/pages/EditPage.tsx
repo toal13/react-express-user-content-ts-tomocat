@@ -1,7 +1,7 @@
 // components/EditPage.tsx
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { editEvent, fetchEvent } from '../api/edit-caller';
 
 interface Event {
@@ -13,20 +13,18 @@ interface Event {
 }
 
 export default function EditPage() {
-  const { eventId } = useParams<{ eventId: string }>();
-  console.log('Fetched Event ID:', eventId);
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { eventId } = useParams<{ eventId: string }>();
 
   const { data: event, isLoading } = useQuery<Event>({
     queryKey: ['event', eventId],
     queryFn: () => {
       if (!eventId) {
-        console.error('Error: eventId is undefined');
         throw new Error('Invalid event ID');
       }
       return fetchEvent(eventId);
     },
-    staleTime: 5 * 60 * 1000,
   });
 
   console.log('Event:', event);
@@ -42,6 +40,7 @@ export default function EditPage() {
       setTitle(event.title || '');
       setPlace(event.place || '');
       setDate(event.date || '');
+      setTime(event.time || '');
       setContent(event.content || '');
     }
   }, [event]);
@@ -49,7 +48,10 @@ export default function EditPage() {
   const mutation = useMutation({
     mutationFn: (newEventData: Event) => editEvent(eventId!, newEventData),
     onSuccess: () => {
-      queryClient.invalidateQueries(['event', eventId]);
+      // queryClient.invalidateQueries(['event', eventId]);
+      // queryClient.setQueryData(['event', eventId], data);
+      navigate(`/events`);
+
       console.log('Event edited successfully');
     },
     onError: (error) => {
@@ -125,7 +127,6 @@ export default function EditPage() {
             <label className='text-white dark:text-gray-200'>Description</label>
             <textarea
               id='content'
-              type='text'
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring'
