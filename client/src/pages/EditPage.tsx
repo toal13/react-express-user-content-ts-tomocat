@@ -1,52 +1,79 @@
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { editEvent } from "../api/edit-caller";
+
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { editEvent, fetchEvent } from '../api/edit-caller';
+
+interface Event {
+  title: string;
+  place: string;
+  date: string;
+  time: string;
+  content: string;
+}
 
 export default function EditPage() {
-  const { eventId } = useParams(); // useParams フックを使用して eventId を取得
-  console.log("eventId:", eventId);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { eventId } = useParams<{ eventId: string }>();
 
   const { data: event, isLoading } = useQuery<Event>({
-    queryKey: ["event", eventId],
-    queryFn: async () => {
-      const response = await fetch(`/api/posts/${eventId}`); // eventId を含めたURLを生成
-      if (!response.ok) {
-        throw new Error("Failed to fetch event data");
+    queryKey: ['event', eventId],
+    queryFn: () => {
+      if (!eventId) {
+        throw new Error('Invalid event ID');
       }
-      return response.json();
+      return fetchEvent(eventId);
     },
   });
 
-  const [title, setTitle] = useState("");
-  const [place, setPlace] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [content, setContent] = useState("");
+  console.log('Event:', event);
 
-  const handleEdit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const [title, setTitle] = useState('');
+  const [place, setPlace] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [content, setContent] = useState('');
 
-    const editedEventData = {
-      title,
-      place,
-      date,
-      time,
-      content,
-    };
 
-    try {
-      await editEvent(eventId, editedEventData);
-      console.log("Event edited successfully");
-    } catch (error) {
-      console.error("Failed to edit event:", error);
+  useEffect(() => {
+    if (event) {
+      setTitle(event.title || '');
+      setPlace(event.place || '');
+      setDate(event.date || '');
+      setTime(event.time || '');
+      setContent(event.content || '');
     }
+  }, [event]);
+
+  const mutation = useMutation({
+    mutationFn: (newEventData: Event) => editEvent(eventId!, newEventData),
+    onSuccess: () => {
+      // queryClient.invalidateQueries(['event', eventId]);
+      // queryClient.setQueryData(['event', eventId], data);
+      navigate(`/events`);
+
+
+      console.log('Event edited successfully');
+    },
+    onError: (error) => {
+      console.error('Failed to edit event:', error);
+    },
+  });
+
+  const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const editedEventData = { title, place, date, time, content };
+
+    mutation.mutate(editedEventData);
   };
 
-  // イベントが存在しない場合
+  if (isLoading) return <div>Loading...</div>;
+
   if (!event) {
     return <div>Event not found</div>;
   }
+
 
   return (
     <section className="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 m-36">
@@ -65,7 +92,6 @@ export default function EditPage() {
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
             />
           </div>
-
           <div>
             <label className="text-white dark:text-gray-200">Address</label>
             <input
@@ -99,17 +125,16 @@ export default function EditPage() {
           <div>
             <label className="text-white dark:text-gray-200">URL</label>
             <input
-              id="image"
-              type="file"
-              onChange={() => handleEdit}
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              id='image'
+              type='file'
+              className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring'
+
             />
           </div>
           <div>
             <label className="text-white dark:text-gray-200">Description</label>
             <textarea
-              id="content"
-              type="text"
+              id='content'
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"

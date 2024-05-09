@@ -1,11 +1,17 @@
+
+import { useQuery } from '@tanstack/react-query';
+import { CiHeart } from 'react-icons/ci';
+import { FaRegTrashCan } from 'react-icons/fa6';
+import { FiEdit3 } from 'react-icons/fi';
+import { MdOutlinePlace } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
+import { deleteEvent } from '../api/delete-callers';
+import { getEvents } from '../api/events-callers';
+import { Event } from '../api/posts-caller';
+import { getLoggedInUser } from '../api/user-callers';
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { useQuery } from "@tanstack/react-query";
-import { MdOutlinePlace } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import { deleteEvent } from "../api/delete-callers";
-import { getEvents } from "../api/events-callers";
-import { Event } from "../api/posts-caller";
-import { getLoggedInUser } from "../api/user-callers";
+
+
 
 export default function EventPage() {
   const navigate = useNavigate();
@@ -27,7 +33,9 @@ export default function EventPage() {
   };
 
   const handleEdit = (eventId) => {
-    navigate("/edit");
+
+    navigate(`/edit/${eventId}`);
+
   };
 
   const handleDelete = async (eventId) => {
