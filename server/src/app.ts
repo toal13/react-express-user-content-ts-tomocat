@@ -1,6 +1,8 @@
 import cookieSession from 'cookie-session';
 import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
+import 'express-async-errors';
+
 import { eventsRouter } from '../resources/events/events-router';
 import imagesRouter from '../resources/images/images-router';
 import usersRouter from '../resources/users/users-router';
@@ -14,7 +16,7 @@ app.use(express.json());
 app.use(
   cookieSession({
     name: 'session',
-    secret: process.env.SECRET_KEY,
+    secret: process.env.SECRET_KEY || 'hjgct564strxc7f8654erd',
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
   })
