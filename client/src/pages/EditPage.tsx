@@ -59,7 +59,7 @@ export default function EditPage() {
 
   const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const editedEventData = { title, place, date, time, content };
+    const editedEventData = { ...event, title, place, date, time, content };
 
     mutation.mutate(editedEventData);
   };

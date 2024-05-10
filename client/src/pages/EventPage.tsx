@@ -124,17 +124,17 @@ export default function EventPage() {
                       </a>
                     </div>
                     <div>
-                      {user.data?._id === event.author ||
-                        (user.data?.isAdmin && (
-                          <div className='flex gap-2'>
-                            <button onClick={() => handleEdit(event.id)}>
-                              <PencilIcon className='size-5' />
-                            </button>
-                            <button onClick={() => handleDelete(event.id)}>
-                              <TrashIcon className='size-5' />
-                            </button>
-                          </div>
-                        ))}
+                      {(user.data?._id === event.author?._id ||
+                        user.data?.isAdmin) && (
+                        <div className='flex gap-2'>
+                          <button onClick={() => handleEdit(event.id)}>
+                            <PencilIcon className='size-5' />
+                          </button>
+                          <button onClick={() => handleDelete(event.id)}>
+                            <TrashIcon className='size-5' />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

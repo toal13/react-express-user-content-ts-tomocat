@@ -1,8 +1,10 @@
+import { User } from './user-callers';
+
 export interface Event {
   id?: string;
   title: string;
   content: string;
-  author?: string;
+  author?: User;
   date: string;
   place: string;
   category?: string;
