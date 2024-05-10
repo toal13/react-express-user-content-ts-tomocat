@@ -15,6 +15,25 @@ This is an application designed to create a user-based platform where users can 
  
  Content Visibility: Content created by users is visible to everyone, including those who are not logged in.
 
+## Setup Instructions
+Clone the repository: 
+
+        git clone https://github.com/plugga-tech/react-express-user-content-ts-tomocat.git
+
+Navigate to the project directory: cd react-express-user-content-ts-tomocat.git
+
+cd server npm install
+
+npm run dev
+
+cd client npm install
+
+npm run dev
+
+Access the application in your browser at 
+
+http://localhost:3000
+
 
 ## Technologies Used
 
