@@ -40,7 +40,8 @@ export default function EventPage() {
       try {
         await deleteEvent(eventId);
         console.log('Event deleted successfully');
-        window.location.reload();
+        navigate('/events');
+        // window.location.reload();
       } catch (error) {
         console.error('Failed to delete event:', error);
       }
