@@ -80,3 +80,26 @@ export async function logoutUser() {
     console.error('An error occurred during logout');
   }
 }
+
+export async function deleteUser(userId: string) {
+  const response = await fetch(`/api/users/${userId}`, {
+    method: 'DELETE',
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to delete user: ${response.statusText}`);
+  }
+}
+
+export async function updateUser(userId: string, userData: Partial<User>) {
+  const response = await fetch(`/api/users/${userId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userData),
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to update user: ${response.statusText}`);
+  }
+  return response.json();
+}

@@ -87,7 +87,7 @@ export default function CreateEvent() {
             <label className='text-white dark:text-gray-200'>Date</label>
             <input
               id='date'
-              type='text'
+              type='date'
               value={date}
               onChange={(e) => setDate(e.target.value)}
               className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring'
