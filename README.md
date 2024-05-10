@@ -1,35 +1,31 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/z_vk9oRK)
-# User Based Content
 
-## Beskrivning
+# Event app-GoGothenburg
 
-Ni ska skapa en användarbaserad plattform där en användare har möjligheten att registrera sig, logga in och skapa innehåll (inlägg). Vad för innehåll som användaren kan skapa är valfritt med det ska vara baserat på en resurs i erat Express-API. Användardatan ska även den baseras på en egen resurs (användare), där lösenordet är krypterat. Samtligt innehåll som skapas, förändras eller tas bort ska sparas till en MongoDB databas. Innehållet som en användare skapar får endast lov att ändras eller tas bort av skaparen. Plattformen ska innehålla en klientapplikation där samtliga operationer som nämnts ovan är genomförbara. Dessutom ska innehållet på något sätt presenteras i gränssnittet och vara synligt föra alla - även om man inte är inloggad.
+This is an application designed to create a user-based platform where users can register, log in, and create content (posts). The content that users can create is optional but should be based on a resource in our Express API. User data should also be based on a separate resource (users), with passwords encrypted. All content created, modified, or deleted should be saved to a MongoDB database. The content created by a user can only be modified or deleted by the creator. The platform includes a client application where all the mentioned operations can be performed. Additionally, the content should be presented in the interface in some way and be visible to everyone - even if they are not logged in.
 
-## Kodbas
+## Features
 
-Den här kodbasen är indelad i en [klientmapp](./client/) och en [servermapp](./server/).
-Servern har två miljöer konfigurerade, en för utveckling och en för testning.
+ User Registration: Users can create an account by providing necessary details.
+ 
+ User Authentication: Users can log in securely using their credentials.
 
-Servern innehåller några start-filer som kan vara bra att känna till:
+ Content Creation: Users can create posts based on a resource in the Express API.
 
-- `server.ts` - startfil för utvecklingsmiljön.
-- `app.ts` - innehåller all serverlogik.
-- `index.ts` - exports till testmiljön.
+ Data Persistence: All content created, modified, or deleted is saved to a MongoDB database.
+ 
+ Content Visibility: Content created by users is visible to everyone, including those who are not logged in.
 
-Här är en lista på de olika skripten som kan köras i terminalen.
 
-Navigera först till server mappen -`cd server` och sedan:
+## Technologies Used
 
-- `npm install` - Installerar alla NodeJS moduler (körs en gång).
-- `npm run update` - Uppdaterar testerna och behöver köras om läraren har ändrat dom.
-- `npm run dev` - Startar utvecklingsmiljön.
-- `npm test` - Startar testmiljön så du kan jobba med kravlistan.
+Express.js
 
-För att bli godkänd på den här uppgiften MÅSTE ni använda GIT och GitHub. Inlämningen sker som vanligt via läroplattformen där ni lämnar in er projektmapp som en zip-fil. I projektmappen ska det finnas (utöver all kod) en README.md fil som innehåller en titel, beskrivning av uppgiften och vad som krävs för att bygga och starta projektet.
+MongoDB
 
-En muntligt presentation ska genomföras per grupp där ni visar vad ni har skapat. Samtlig funktionalitet ska demas och kommer att bockas av och Godkännas under presentationen. Upplägg och innehåll i övrigt är valfritt så länge ni håller er till ämnet. Ca 10-15 min per grupp.
+React
 
-Para ihop er i grupp om två - ni väljer själva vilka ni jobbar med.
+TanStack Query
+
 
 **Krav för godkänt:**
 
@@ -43,7 +39,6 @@ Para ihop er i grupp om två - ni väljer själva vilka ni jobbar med.
 - [ ] Projektet ska ha stöd för att ladda upp och visa bilder som en del av innehållet.
 - [ ] Allt innehåll ska sparas i en MongoDB databas.
 
-_Gjorda krav ska kryssar i_
 
 **Krav för väl godkänt:**
 
@@ -51,4 +46,3 @@ _Gjorda krav ska kryssar i_
 - [ ] Det ska finnas en adminroll i systemet där man som inloggad admin har rättigheten att utföra CRUD operationer på allt innehåll.
 - [ ] Admins ska ha tillgång till ett gränssnitt som listar alla användare och deras roller. En admin ska från gränssnittet kunna ta bort användare eller ändra dess roll.
 
-_Gjorda krav ska kryssar i_
