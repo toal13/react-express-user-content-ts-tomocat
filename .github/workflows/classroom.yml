@@ -1,7 +1,6 @@
 name: Autograding Tests
 'on':
 - push
-- workflow_dispatch
 - repository_dispatch
 permissions:
   checks: write
@@ -16,24 +15,24 @@ jobs:
       uses: actions/checkout@v4
     - name: Krav G
       id: krav-g
-      uses: education/autograding-command-grader@v1
+      uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: Krav G
-        setup-command: exit 1
+        setup-command: cd server && npm install && npx plugga mongo
         command: cd server && npx plugga test --vitest --ts --run .g.
         timeout: 10
         max-score: 60
     - name: Krav VG
       id: krav-vg
-      uses: education/autograding-command-grader@v1
+      uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: Krav VG
-        setup-command: exit 1
+        setup-command: cd server && npm install && npx plugga mongo
         command: cd server && npx plugga test --vitest --ts --run .vg.
         timeout: 10
         max-score: 40
     - name: Autograding Reporter
-      uses: education/autograding-grading-reporter@v1
+      uses: classroom-resources/autograding-grading-reporter@v1
       env:
         KRAV-G_RESULTS: "${{steps.krav-g.outputs.result}}"
         KRAV-VG_RESULTS: "${{steps.krav-vg.outputs.result}}"
