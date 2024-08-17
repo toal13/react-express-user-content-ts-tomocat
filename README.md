@@ -18,7 +18,7 @@ This is an application designed to create a user-based platform where users can 
 ## Setup Instructions
 Clone the repository: 
 
-        git clone https://github.com/plugga-tech/react-express-user-content-ts-tomocat.git
+        https://github.com/toal13/react-express-user-content-ts-tomocat.git
 
 Navigate to the project directory: cd react-express-user-content-ts-tomocat.git
 
@@ -44,24 +44,4 @@ MongoDB
 React
 
 TanStack Query
-
-
-**Krav för godkänt:**
-
-- [ ] Git & GitHub har använts
-- [ ] Projektmappen innehåller en README.md fil (läs ovan för mer info)
-- [ ] Uppgiften lämnas in i tid!
-- [ ] Det ska finnas minst två stycken resurser (users & posts)
-- [ ] Det ska gå att registrera sig, logga in och skapa innehåll som är kopplat till inloggad användare.
-- [ ] Endast den inloggade användaren får lov att utföra C_UD actions på sitt innehåll.
-- [ ] Innehållet ska vara synligt för alla besökare på sidan.
-- [ ] Projektet ska ha stöd för att ladda upp och visa bilder som en del av innehållet.
-- [ ] Allt innehåll ska sparas i en MongoDB databas.
-
-
-**Krav för väl godkänt:**
-
-- [ ] Alla punkter för godkänt är uppfyllda
-- [ ] Det ska finnas en adminroll i systemet där man som inloggad admin har rättigheten att utföra CRUD operationer på allt innehåll.
-- [ ] Admins ska ha tillgång till ett gränssnitt som listar alla användare och deras roller. En admin ska från gränssnittet kunna ta bort användare eller ändra dess roll.
 
